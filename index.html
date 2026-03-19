@@ -1,0 +1,2647 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đặt Sân Pickleball</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #2ECC71;
+    --green-dark: #27AE60;
+    --green-light: #ABEBC6;
+    --red: #E74C3C;
+    --yellow: #F39C12;
+    --bg: #0D1117;
+    --bg2: #161B22;
+    --bg3: #21262D;
+    --border: #30363D;
+    --text: #E6EDF3;
+    --text2: #8B949E;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: 0.5px;
+    color: var(--green);
+    text-transform: uppercase;
+  }
+
+  .logo span { color: var(--text); }
+
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    background: var(--bg3);
+    border-radius: 8px;
+    padding: 4px;
+  }
+
+  .nav-tab {
+    padding: 12px 20px;
+    min-height: 44px;
+    border: none;
+    background: transparent;
+    color: var(--text2);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+
+  .nav-tab.active {
+    background: var(--green);
+    color: #000;
+  }
+
+  /* PAGES */
+  .page { display: none; padding: 2rem; max-width: 1200px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 3.5rem 0 2.5rem;
+  }
+
+  .hero h1 {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+    text-shadow: 0 2px 24px rgba(46,204,113,0.2);
+    text-transform: uppercase;
+  }
+
+  .hero h1 span { color: var(--green); }
+
+  .hero p {
+    color: var(--text2);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  /* DATE SELECTOR */
+  .date-strip {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    margin-bottom: 2rem;
+    scrollbar-width: none;
+  }
+
+  .date-strip::-webkit-scrollbar { display: none; }
+
+  .date-btn {
+    flex-shrink: 0;
+    padding: 10px 16px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    min-width: 70px;
+  }
+
+  .date-btn .day { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
+  .date-btn .num { font-size: 1.4rem; font-weight: 600; color: var(--text); }
+  .date-btn:hover { border-color: var(--green); }
+  .date-btn.active { background: var(--green); border-color: var(--green); }
+  .date-btn.active .day, .date-btn.active .num { color: #000; }
+
+  /* GRID */
+  .grid-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+
+  .grid-title {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text2);
+  }
+
+  .legend {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: var(--text2);
+  }
+
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 3px;
+  }
+
+  .court-grid {
+    overflow-x: auto;
+  }
+
+  .court-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+  }
+
+  .court-table th {
+    padding: 12px 8px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text2);
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .court-table th:first-child {
+    text-align: left;
+    padding-left: 1rem;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+  }
+
+  .court-table td {
+    padding: 5px 4px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .court-table td:first-child {
+    padding-left: 1rem;
+    font-size: 0.8rem;
+    color: var(--text2);
+    text-align: left;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  .slot {
+    width: 100%;
+    height: 52px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 600;
+    transition: all 0.15s;
+    position: relative;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  .slot.available {
+    background: rgba(46, 204, 113, 0.15);
+    color: var(--green);
+    border: 1px solid rgba(46, 204, 113, 0.3);
+  }
+
+  .slot.available:hover {
+    background: var(--green);
+    color: #000;
+    transform: scale(1.05);
+  }
+
+  .slot.past {
+    background: rgba(100, 100, 100, 0.08);
+    color: rgba(150, 150, 150, 0.5);
+    border: 1px solid rgba(150, 150, 150, 0.15);
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+  .booked {
+    background: rgba(231, 76, 60, 0.15);
+    color: var(--red);
+    border: 1px solid rgba(231, 76, 60, 0.2);
+    cursor: not-allowed;
+    font-size: 0.65rem;
+  }
+
+  .slot.selected {
+    background: var(--yellow);
+    color: #000;
+    border: 1px solid var(--yellow);
+    animation: pulse 1s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(243,156,18,0.4); }
+    50% { box-shadow: 0 0 0 4px rgba(243,156,18,0); }
+  }
+
+  /* BOOKING PANEL */
+  .booking-panel {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 1rem 2rem;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    z-index: 50;
+    flex-wrap: wrap;
+  }
+
+  .booking-panel.show { display: flex; }
+
+  /* Tránh bị che slot khi booking-panel xuất hiện */
+  body.panel-open { padding-bottom: 130px; }
+  @media (max-width: 600px) { body.panel-open { padding-bottom: 160px; } }
+
+  .booking-summary { font-size: 0.9rem; }
+  .booking-summary strong { color: var(--green); font-size: 1.2rem; font-family: 'Be Vietnam Pro', sans-serif; font-weight: 700; letter-spacing: 0.3px; }
+
+  .btn {
+    padding: 12px 24px;
+    min-height: 44px;
+    border-radius: 10px;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.2px;
+  }
+  .btn:active {
+    transform: scale(0.97);
+    opacity: 0.85;
+  }
+  .slot:active:not(:disabled) {
+    transform: scale(0.93);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
+    color: #000;
+    box-shadow: 0 4px 18px rgba(46,204,113,0.3);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 6px 24px rgba(46,204,113,0.45);
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, #35D679 0%, #2ECC71 100%);
+  }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-danger { background: transparent; color: var(--red); border: 1px solid var(--red); }
+  .btn-danger:hover { background: var(--red); color: white; }
+  .btn-secondary { background: var(--bg3); color: var(--text); border: 1px solid var(--border); }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .modal-overlay.show { display: flex; }
+
+  .modal {
+    background: linear-gradient(145deg, #0f1923 0%, #141d27 100%);
+    border: 1px solid rgba(46,204,113,0.12);
+    box-shadow: 0 0 0 1px rgba(46,204,113,0.06), 0 32px 64px rgba(0,0,0,0.75), 0 0 60px rgba(46,204,113,0.04);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 480px;
+    animation: slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    position: relative;
+    overflow: hidden;
+  }
+  .modal::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(46,204,113,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(24px) scale(0.97); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  .modal h2 {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    line-height: 1.05;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+  }
+
+  .modal-info {
+    background: var(--bg3);
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 1rem 0;
+    font-size: 0.85rem;
+    color: var(--text2);
+    line-height: 1.8;
+  }
+
+  .modal-info strong { color: var(--text); }
+
+  .form-group { margin-bottom: 1rem; }
+
+  .form-group label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: rgba(139,148,158,0.85);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-group input:focus { border-color: var(--green); }
+
+  .modal-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .modal-actions .btn { flex: 1; }
+
+  /* PRICE TAG */
+  .price-tag {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--green);
+  }
+
+  /* ADMIN PAGE */
+  .admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  .admin-header h1 {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .stat-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+
+  .stat-card .label {
+    font-size: 0.75rem;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-card .value {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: 0px;
+  }
+
+  .stat-card.green .value { color: var(--green); }
+  .stat-card.red .value { color: var(--red); }
+  .stat-card.yellow .value { color: var(--yellow); }
+
+  /* TABLE */
+  .bookings-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg2);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .bookings-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .bookings-table td {
+    padding: 12px 16px;
+    font-size: 0.875rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+
+  .bookings-table tr:last-child td { border-bottom: none; }
+
+  .bookings-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .badge-pending { background: rgba(243,156,18,0.2); color: var(--yellow); }
+  .badge-confirmed { background: rgba(46,204,113,0.2); color: var(--green); }
+  .badge-cancelled { background: rgba(231,76,60,0.2); color: var(--red); }
+
+  .action-btns { display: flex; gap: 6px; }
+
+  .btn-sm {
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-confirm { background: rgba(46,204,113,0.2); color: var(--green); }
+  .btn-confirm:hover { background: var(--green); color: #000; }
+  .btn-cancel { background: rgba(231,76,60,0.2); color: var(--red); }
+  .btn-cancel:hover { background: var(--red); color: white; }
+
+  /* SUCCESS */
+  .success-screen {
+    display: none;
+    text-align: center;
+    padding: 3rem 1rem;
+  }
+
+  .success-screen.show { display: block; }
+
+  .success-icon {
+    width: 80px; height: 80px;
+    background: rgba(46,204,113,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2rem;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text2);
+  }
+
+  .filter-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text2);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn.active { background: var(--green); color: #000; border-color: var(--green); }
+
+  .player-btn {
+    width: 52px; height: 52px;
+    border-radius: 12px;
+    border: 2px solid var(--border);
+    background: var(--bg3);
+    color: var(--text2);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .player-btn:hover { border-color: var(--green); color: var(--green); }
+
+  .player-btn.active {
+    background: rgba(46,204,113,0.2);
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  .modal { max-height: 90vh; overflow-y: auto; }
+
+  .notification {
+    position: fixed;
+    top: 80px;
+    right: 1rem;
+    background: var(--bg2);
+    border: 1px solid var(--green);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    font-size: 0.875rem;
+    z-index: 300;
+    animation: fadeIn 0.3s ease;
+    max-width: 300px;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @media (max-width: 768px) {
+    .modal { padding: 1.5rem; }
+    .super-admin-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 2.4rem; letter-spacing: 0.5px; }
+    .hero p { font-size: 0.85rem; }
+    nav { padding: 0 0.75rem; }
+    .page { padding: 0.75rem; }
+    .logo { font-size: 1.1rem; letter-spacing: 1px; }
+    .nav-tab { padding: 10px 10px; font-size: 0.78rem; min-height: 44px; }
+    .slot { height: 46px; font-size: 0.7rem; }
+    .court-table th { font-size: 0.65rem; padding: 6px 3px; }
+    .court-table td { padding: 3px 2px; }
+    .modal { border-radius: 12px; padding: 1.25rem; }
+    .modal h2 { font-size: 1.6rem; }
+    .btn { padding: 12px 16px; font-size: 0.85rem; }
+    .booking-panel { padding: 0.75rem 1rem; flex-direction: column; gap: 0.5rem; }
+    .date-strip { gap: 4px; padding: 0.75rem 0; }
+    .date-btn { min-width: 52px; padding: 8px 6px; }
+  }
+
+/* ══════════════════════════════════════════
+   MEMBERSHIP MODAL — Redesign 2026
+   Aesthetic: Sport-dark / Neon accent
+   ══════════════════════════════════════════ */
+
+/* Modal base override for membership */
+#memberModal .modal {
+  background: linear-gradient(145deg, #0f1923 0%, #141d27 100%);
+  border: 1px solid rgba(46,204,113,0.15);
+  box-shadow: 0 0 0 1px rgba(46,204,113,0.08), 0 32px 64px rgba(0,0,0,0.7), 0 0 80px rgba(46,204,113,0.05);
+  border-radius: 20px;
+  padding: 1.75rem;
+  position: relative;
+  overflow: hidden;
+}
+#memberModal .modal::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(46,204,113,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Titles */
+#memberModal h2 {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 1.9rem;
+  font-weight: 900;
+  letter-spacing: 0.3px;
+  color: var(--text);
+  line-height: 1.0;
+  text-transform: uppercase;
+}
+#memberModal h2 .icon-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Body text */
+.member-modal-body { padding: 0.5rem 0; }
+#memberModal p {
+  color: var(--text2);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+#memberModal small {
+  color: rgba(139,148,158,0.75);
+  font-size: 0.78rem;
+  display: block;
+  margin-top: 0.3rem;
+}
+
+/* Divider accent */
+.modal-accent-bar {
+  height: 2px;
+  background: linear-gradient(90deg, var(--green), transparent);
+  border-radius: 2px;
+  margin: 1rem 0;
+  opacity: 0.5;
+}
+
+/* ── Form fields ── */
+.mfield { margin-bottom: 1rem; }
+.mfield label {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text2);
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-family: 'Inter', sans-serif;
+}
+.mfield input {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  color: var(--text);
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.mfield input:focus {
+  outline: none;
+  border-color: var(--green);
+  background: rgba(46,204,113,0.05);
+  box-shadow: 0 0 0 3px rgba(46,204,113,0.12);
+}
+.mfield input::placeholder { color: rgba(139,148,158,0.5); }
+
+.pass-eye {
+  position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
+  background: none; border: none; color: var(--text2); cursor: pointer;
+  font-size: 1rem; padding: 0.2rem; opacity: 0.6; transition: opacity 0.15s;
+}
+.pass-eye:hover { opacity: 1; }
+
+/* ── Buttons in modal ── */
+#memberModal .btn {
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+  transition: all 0.2s;
+}
+#memberModal .btn-primary {
+  background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
+  color: #000;
+  border: none;
+  box-shadow: 0 4px 20px rgba(46,204,113,0.35);
+}
+#memberModal .btn-primary:hover {
+  box-shadow: 0 6px 28px rgba(46,204,113,0.5);
+  transform: translateY(-1px);
+}
+#memberModal .btn-primary:active { transform: translateY(0); }
+
+/* ── OTP input ── */
+.otp-input-row { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+.otp-input-row input {
+  flex: 1;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  color: var(--text);
+  padding: 0.85rem;
+  font-size: 1.4rem;
+  text-align: center;
+  letter-spacing: 8px;
+  font-family:'Be Vietnam Pro',sans-serif;
+  font-weight: 700;
+  transition: border-color 0.2s;
+}
+.otp-input-row input:focus {
+  outline: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(46,204,113,0.12);
+}
+
+/* OTP method tabs */
+.otp-method-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+.otp-method-btn {
+  flex: 1; padding: 0.55rem; border: 1px solid rgba(255,255,255,0.1);
+  background: transparent; color: var(--text2); border-radius: 8px;
+  cursor: pointer; font-size: 0.82rem; font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+}
+.otp-method-btn.active {
+  border-color: var(--green); color: var(--green);
+  background: rgba(46,204,113,0.08);
+}
+
+/* ── Points bar ── */
+.member-points-bar {
+  background: rgba(255,255,255,0.06);
+  border-radius: 99px; height: 6px; margin: 0.6rem 0; overflow: hidden;
+}
+.member-points-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #F39C12, #E67E22);
+  border-radius: 99px; transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 0 8px rgba(243,156,18,0.6);
+}
+
+/* Dashboard card */
+.member-dash-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+/* ── Voucher ── */
+.voucher-card {
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 0.65rem 0.9rem;
+  transition: border-color 0.2s;
+  margin-bottom: 0.4rem;
+}
+.voucher-card.selected {
+  border-color: var(--green);
+  background: rgba(46,204,113,0.08);
+  box-shadow: 0 0 0 1px rgba(46,204,113,0.2);
+}
+.voucher-code {
+  font-size: 0.68rem; font-family: 'Inter', monospace; letter-spacing: 1px;
+  color: var(--text2); letter-spacing: 1px;
+}
+.voucher-use-btn {
+  font-size: 0.75rem; padding: 0.3rem 0.7rem; border-radius: 6px;
+  border: 1px solid var(--green); background: transparent; color: var(--green);
+  cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600;
+  transition: all 0.15s;
+}
+.voucher-use-btn:hover { background: rgba(46,204,113,0.1); }
+.voucher-use-btn.active { background: var(--green); color: #000; }
+
+/* ── Navigation links ── */
+.mlink {
+  background: none; border: none; color: var(--text2); font-size: 0.8rem;
+  cursor: pointer; padding: 0; font-family: 'Inter', sans-serif;
+  transition: color 0.15s; text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+.mlink:hover { color: var(--green); border-bottom-color: rgba(46,204,113,0.4); }
+
+/* ── Error message ── */
+.merror {
+  color: #ff6b6b; font-size: 0.8rem; min-height: 1.2rem;
+  margin-bottom: 0.4rem;
+  display: flex; align-items: center; gap: 0.3rem;
+  font-family: 'Inter', sans-serif;
+}
+.merror:not(:empty)::before { content: '⚠'; font-size: 0.75rem; }
+
+/* ── Member badge ── */
+#memberBadge { display:none !important; }
+#memberBadge.visible { display:inline-flex !important; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">PICK<span>COURT</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active">Đặt Sân</button>
+    <button class="nav-tab" id="memberNavBtn" onclick="openMemberLogin()" style="color:var(--yellow);border-color:var(--yellow)">👤 Hội Viên</button>
+    <a href="tel:0889398931" class="nav-tab" style="text-decoration:none;color:inherit">📞 0889.398.931</a>
+    <button class="nav-tab" onclick="document.getElementById('bookingDebugPanel').style.display=document.getElementById('bookingDebugPanel').style.display==='none'?'block':'none';if(document.getElementById('bookingDebugPanel').style.display==='block')bookingDebugTest()"
+      style="color:#F39C12;border-color:rgba(243,156,18,0.35)">🔧</button>
+  </div>
+</nav>
+
+<!-- Debug panel — Booking Customer App -->
+<div id="bookingDebugPanel" style="display:none;background:#161B22;border:1px solid rgba(243,156,18,0.3);border-radius:10px;padding:1rem;margin:0.75rem 1rem;font-size:0.8rem">
+  <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.8px;color:#F39C12;margin-bottom:0.75rem">🔧 DEBUG — KIỂM TRA KẾT NỐI GAS</div>
+  <div id="bookingDebugLog" style="font-family:'Courier New',monospace;font-size:0.72rem;color:#8B949E;line-height:1.8;max-height:220px;overflow-y:auto"></div>
+  <div style="margin-top:0.75rem;display:flex;gap:0.5rem;flex-wrap:wrap">
+    <button onclick="bookingDebugTest()" style="padding:6px 14px;border-radius:6px;border:1px solid #F39C12;background:rgba(243,156,18,0.1);color:#F39C12;cursor:pointer;font-size:0.78rem;font-weight:600">▶ Chạy test</button>
+    <button onclick="document.getElementById('bookingDebugLog').innerHTML=''" style="padding:6px 14px;border-radius:6px;border:1px solid #30363D;background:transparent;color:#8B949E;cursor:pointer;font-size:0.78rem">🗑 Xóa log</button>
+    <button onclick="document.getElementById('bookingDebugPanel').style.display='none'" style="padding:6px 14px;border-radius:6px;border:1px solid #30363D;background:transparent;color:#8B949E;cursor:pointer;font-size:0.78rem">✕ Đóng</button>
+  </div>
+</div>
+
+<!-- BOOKING PAGE -->
+<div id="page-booking" class="page active">
+  <div class="hero">
+    <h1 id="heroTitle">ĐẶT SÂN <span id="heroAccent">PICKLEBALL</span></h1>
+    <p id="heroSubtitle">Nhơn Trạch, Đồng Nai &nbsp;·&nbsp; 5 sân có mái che &nbsp;·&nbsp; 06:00 – 22:00</p>
+    <div id="memberBadge" style="margin-top:0.5rem;font-size:0.85rem;color:var(--yellow);background:rgba(243,156,18,0.1);padding:0.3rem 0.9rem;border-radius:99px;align-items:center;gap:0.4rem">
+      <span id="memberBadgeTierIcon">⭐</span> <span id="memberBadgeName"></span> · <span id="memberBadgePoints" style="font-size:0.8em;opacity:0.8"></span>
+    </div>
+  </div>
+
+  <div class="date-strip" id="dateStrip"></div>
+
+  <div class="grid-header">
+    <div class="grid-title">LỊCH SÂN</div>
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:rgba(46,204,113,0.5)"></div>Trống
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:rgba(231,76,60,0.5)"></div>Đã đặt
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#F39C12"></div>Đang chọn
+      </div>
+    </div>
+  </div>
+
+  <div class="court-grid">
+    <table class="court-table" id="courtTable">
+      <thead id="courtHead"></thead>
+      <tbody id="courtBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- BOOKING PANEL -->
+<div class="booking-panel" id="bookingPanel">
+  <div class="booking-summary" id="bookingSummary"></div>
+  <div style="display:flex;gap:0.5rem">
+    <button class="btn btn-danger" onclick="clearSelection()">Bỏ chọn</button>
+    <button class="btn btn-primary" onclick="openModal()">Xác nhận đặt →</button>
+  </div>
+</div>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal">
+    <h2>THÔNG TIN <span style="color:var(--green)">ĐẶT SÂN</span></h2>
+    <div class="modal-info" id="modalInfo" style="margin-bottom:1rem"></div>
+
+    <!-- BƯỚC 1: Thông tin cá nhân -->
+    <div style="font-size:0.7rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.6rem">① Thông tin liên hệ</div>
+    <!-- Member auto-fill banner -->
+    <div id="memberAutofillBanner" style="display:none;background:rgba(46,204,113,0.1);border:1px solid var(--green);border-radius:8px;padding:0.5rem 0.75rem;margin-bottom:0.75rem;font-size:0.82rem;color:var(--green);align-items:center;justify-content:space-between">
+      <span>⭐ Đã điền thông tin hội viên</span>
+      <button onclick="clearMemberAutofill()" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:0.8rem">Đổi</button>
+    </div>
+    <div class="form-group">
+      <label>Họ và tên *</label>
+      <input type="text" id="inputName" placeholder="Nguyễn Văn A">
+    </div>
+    <div class="form-group">
+      <label>Số điện thoại *</label>
+      <input type="tel" id="inputPhone" placeholder="0901 234 567">
+    </div>
+
+    <!-- BƯỚC 2: Số người -->
+    <div style="font-size:0.7rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin:1rem 0 0.6rem">② Số người tham gia <span style="color:var(--border)">(2–4 người/sân)</span></div>
+    <div style="display:flex;gap:10px;margin-bottom:1rem" id="playerSelector">
+      <button class="player-btn" onclick="setPlayers(2)">2</button>
+      <button class="player-btn" onclick="setPlayers(3)">3</button>
+      <button class="player-btn active" onclick="setPlayers(4)">4</button>
+    </div>
+
+    <!-- BƯỚC 3: Tóm tắt giá -->
+    <div style="font-size:0.7rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin:1rem 0 0.6rem">③ Thuê vợt <span style="color:var(--border)">(30k/cây/giờ — không bắt buộc)</span></div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem">
+      <button onclick="changeRackets(-1)" style="width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:1.2rem;cursor:pointer;transition:all 0.15s" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--border)'">−</button>
+      <div style="text-align:center;min-width:60px">
+        <div id="racketCount" style="font-family:'Be Vietnam Pro',sans-serif;font-size:2rem;font-weight:700;color:var(--text)">0</div>
+        <div style="font-size:0.7rem;color:var(--text2)">cây vợt</div>
+      </div>
+      <button onclick="changeRackets(1)" style="width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:1.2rem;cursor:pointer;transition:all 0.15s" onmouseover="this.style.borderColor='var(--green)'" onmouseout="this.style.borderColor='var(--border)'">＋</button>
+      <span style="font-size:0.8rem;color:var(--text2)">× 30.000đ/cây/giờ</span>
+    </div>
+
+    <!-- BƯỚC 4: Tóm tắt giá -->
+    <div style="font-size:0.7rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.6rem">④ Chi phí</div>
+    <div class="modal-info" id="modalPriceBox"></div>
+
+    <div class="form-group" style="margin-top:1rem">
+      <label>Ghi chú</label>
+      <input type="text" id="inputNote" placeholder="Thuê vợt, yêu cầu đặc biệt...">
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Hủy</button>
+      <button class="btn btn-primary" onclick="goToPayment()">Tiếp theo →</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAYMENT MODAL -->
+<div class="modal-overlay" id="paymentModal">
+  <div class="modal">
+    <h2>CHỌN <span style="color:var(--green)">THANH TOÁN</span></h2>
+    <div class="modal-info" id="paymentSummary" style="margin-bottom:1rem"></div>
+
+    <!-- Tier discount banner (tự động hiện khi đăng nhập hội viên) -->
+    <div id="tierDiscountBanner" style="display:none;border-radius:10px;padding:0.7rem 1rem;margin-bottom:1rem;border:1px solid rgba(46,204,113,0.3)">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.8px;margin-bottom:0.15rem;opacity:0.8" id="tierDiscountLabel">🏅 HỘI VIÊN</div>
+          <div id="tierDiscountText" style="font-size:0.88rem;font-weight:600"></div>
+        </div>
+        <div id="tierDiscountAmount" style="font-size:1.1rem;font-weight:700;color:var(--green);font-family:'DM Sans',sans-serif;white-space:nowrap"></div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.5rem">
+
+      <!-- QR chuyển khoản -->
+      <div id="btnQR" onclick="selectPayment('qr')"
+        style="border:2px solid var(--border);border-radius:12px;padding:1rem 1.25rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:1rem">
+        <div style="font-size:2rem">📲</div>
+        <div>
+          <div style="font-weight:700;font-size:0.95rem">Chuyển khoản ngân hàng</div>
+          <div style="color:var(--text2);font-size:0.8rem">Quét QR MSB — xác nhận tức thì</div>
+        </div>
+      </div>
+
+      <!-- Trả tại sân -->
+      <div id="btnCash" onclick="selectPayment('cash')"
+        style="border:2px solid var(--border);border-radius:12px;padding:1rem 1.25rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:1rem">
+        <div style="font-size:2rem">🏟️</div>
+        <div>
+          <div style="font-weight:700;font-size:0.95rem">Trả tiền tại sân</div>
+          <div style="color:var(--text2);font-size:0.8rem">Sân giữ chỗ tối đa 30 phút</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QR content -->
+    <div id="qrContent" style="display:none;text-align:center;margin-bottom:1rem">
+      <div style="font-size:0.75rem;color:var(--text2);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:1px">Quét mã để chuyển khoản</div>
+      <img id="qrImg" src="" alt="QR" style="width:220px;height:220px;border-radius:12px;border:3px solid var(--green)">
+      <div style="margin-top:0.75rem;font-size:0.82rem;color:var(--text2)">
+        MSB · <strong style="color:var(--text)">2320092005</strong><br>
+        Trần Hoàng Gia Khánh<br>
+        <span id="qrNote" style="color:var(--yellow)"></span>
+      </div>
+    </div>
+
+    <!-- Cash warning -->
+    <div id="cashContent" style="display:none;background:rgba(243,156,18,0.1);border:1px solid var(--yellow);border-radius:10px;padding:1rem;margin-bottom:1rem;text-align:center">
+      <div style="font-size:1.5rem;margin-bottom:0.5rem">⏱️</div>
+      <div style="font-weight:700;color:var(--yellow);margin-bottom:0.25rem">Giữ sân 30 phút</div>
+      <div style="font-size:0.82rem;color:var(--text2)">Vui lòng đến sân đúng giờ.<br>Quá 30 phút chưa thanh toán, sân có thể được cho thuê lại.</div>
+    </div>
+
+    <div style="display:flex;gap:0.75rem">
+      <button class="btn btn-secondary" onclick="closePaymentModal()">Quay lại</button>
+      <button class="btn btn-primary" id="btnConfirmPayment" style="flex:1;opacity:0.4;pointer-events:none" onclick="confirmBooking()">
+        <span id="btnConfirmText">Xác nhận đặt sân →</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal">
+    <div class="success-screen show">
+      <div class="success-icon" id="successIcon">✅</div>
+      <h2 id="successTitle" style="font-family:'Be Vietnam Pro',sans-serif;font-size:2.2rem;font-weight:900;letter-spacing:0.5px;margin-bottom:0.5rem;text-transform:uppercase">ĐẶT SÂN THÀNH CÔNG!</h2>
+      <p style="color:var(--text2);margin-bottom:1.5rem" id="successMsg"></p>
+      <div class="modal-info" id="successDetail" style="text-align:left"></div>
+      <button class="btn btn-primary" style="margin-top:1.5rem;width:100%" onclick="closeSuccessModal()">✅ Xác nhận đơn đặt ngay</button>
+      <div style="text-align:center;margin-top:0.5rem;color:var(--text2);font-size:0.82rem">Tự đóng sau <span id="successCountdown" style="color:var(--green);font-weight:700">30</span>s</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ========================
+// DATA
+// ========================
+let COURTS = ['Sân 1','Sân 2','Sân 3','Sân 4','Sân 5'];
+let HOURS = ['06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00'];
+// APPS_SCRIPT_URL via env var
+
+function sendToSheet(booking) {
+  try {
+    const params = new URLSearchParams({
+      id: booking.id || '',
+      name: booking.name || '',
+      phone: booking.phone || '',
+      date: booking.date || '',
+      court: booking.court || '',
+      startHour: booking.startHour || '',
+      duration: String(booking.duration || ''),
+      players: String(booking.players || ''),
+      rackets: String(booking.rackets || 0),
+      courtTotal: String(booking.courtTotal || 0),
+      racketTotal: String(booking.racketTotal || 0),
+      total: String(booking.total || 0),
+      status: booking.status || 'pending',
+      payment: booking.payment || 'cash',
+      note: booking.note || ''
+    });
+
+    const target = '/api/sheet?' + params.toString();
+    console.log('Gửi Sheet:', target);
+
+    fetch(target)
+      .then(r => r.json())
+      .then(d => console.log('Sheet OK:', d))
+      .catch(err => console.warn('Gửi Sheet lỗi:', err.message));
+
+  } catch(e) {
+    console.warn('Gửi Sheet thất bại:', e);
+  }
+}
+function _sheetCb(data) { console.log('Sheet response:', data); }
+
+async function loadBookingsFromSheet(dateFilter) {
+  try {
+    // Lazy load: chỉ fetch ngày đang chọn + hôm nay nếu không có filter
+    const targetDate = dateFilter || selectedDate || dates[0];
+    const url = targetDate
+      ? `/api/sheet?action=readJson&date=${encodeURIComponent(targetDate)}`
+      : '/api/sheet?action=read';
+    const res = await fetch(url);
+    if (!res.ok) { console.warn('Sheet HTTP error:', res.status); return; }
+    const payload = await res.json();
+    // readJson trả { bookings: [], ts: ... }, read trả array thẳng
+    const rows = Array.isArray(payload) ? payload : (payload.bookings || []);
+    if (!Array.isArray(rows)) { console.warn('Sheet response lỗi:', payload); return; }
+
+    function parseDate(val) {
+      if (!val) return '';
+      const s = String(val).trim();
+      if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+      if (s.includes('T')) {
+        const d = new Date(s);
+        const offset = d.getTimezoneOffset();
+        d.setMinutes(d.getMinutes() - offset);
+        return d.toISOString().split('T')[0];
+      }
+      return s;
+    }
+
+    function parseHour(val) {
+      if (!val) return '';
+      const s = String(val).trim();
+      // "08:00" → OK
+      if (/^\d{2}:00$/.test(s)) return s;
+      // "08:18" hoặc "08:30" → normalize về "08:00" (giờ tròn)
+      if (/^\d{2}:\d{2}$/.test(s)) return s.substring(0,2) + ':00';
+      // ISO datetime
+      if (s.includes('T')) {
+        const d = new Date(s);
+        return String(d.getUTCHours()).padStart(2,'0') + ':00';
+      }
+      // Số thuần: 15 → "15:00", 6 → "06:00"
+      if (/^\d{1,2}$/.test(s)) return s.padStart(2,'0') + ':00';
+      // "15:00:00" → "15:00"
+      if (/^\d{2}:\d{2}:\d{2}$/.test(s)) return s.substring(0,2) + ':00';
+      return s;
+    }
+
+    bookings = rows
+      .filter(r => r && r.id)
+      .map(r => ({
+        id:          String(r.id          || ''),
+        name:        String(r.name        || ''),
+        phone:       String(r.phone       || ''),
+        email:       String(r.email       || ''),
+        date:        parseDate(r.date     || ''),
+        court:       String(r.court       || ''),
+        startHour:   parseHour(r.startHour|| ''),
+        duration:    Number(r.duration)   || 1,
+        players:     Number(r.players)    || 4,
+        rackets:     Number(r.rackets)    || 0,
+        courtTotal:  Number(r.courtTotal) || 0,
+        racketTotal: Number(r.racketTotal)|| 0,
+        total:       Number(r.total)      || 0,
+        status:      String(r.status      || 'pending'),
+        payment:     String(r.payment     || ''),
+        note:        String(r.note        || '')
+      }));
+
+    if (!_isConfirming) buildGrid();
+        console.log('[Sheet] Loaded', bookings.length, 'bookings');
+  } catch(e) {
+    console.warn('[Sheet] loadBookings error:', e.message);
+  }
+}
+
+let PRICE_DAY = 120000;   // 06:00 – 16:00
+let PRICE_NIGHT = 220000; // 17:00 – 22:00
+let PRICE_RACKET = 30000; // /cây/giờ
+
+// ── MEMBERSHIP TIER ──────────────────────────────────────────
+const TIER_CONFIG = {
+  black:   { discount: 5,  label: '⚫ Black',   color: '#8B949E', bg: 'rgba(139,148,158,0.15)' },
+  silver:  { discount: 8,  label: '⚪ Silver',  color: '#C0C0C0', bg: 'rgba(192,192,192,0.15)' },
+  gold:    { discount: 10, label: '🥇 Gold',    color: '#F39C12', bg: 'rgba(243,156,18,0.15)'  },
+  diamond: { discount: 15, label: '💎 Diamond', color: '#3498DB', bg: 'rgba(52,152,219,0.15)'  }
+};
+function getTierDiscount() {
+  if (!currentMember) return 0;
+  // Fallback: nếu tier undefined (GAS cũ không trả tier) → black = 5%
+  const tier = currentMember.tier || 'black';
+  return TIER_CONFIG[tier]?.discount ?? TIER_CONFIG.black.discount;
+}
+const MAX_PLAYERS = 4;
+
+function getPriceForHour(hour) {
+  const h         = parseInt(hour);
+  const nightHour = (window._nightHour !== undefined) ? window._nightHour : 17;
+  return h >= nightHour ? PRICE_NIGHT : PRICE_DAY;
+}
+
+let bookings = [];
+
+let selectedSlots = []; // [{court, hour, date}]
+let selectedDate = getTodayStr();
+let selectedPlayers = 4;
+let selectedRackets = 0;
+let currentFilter = 'all';
+
+function calcTotal(slots) {
+  // slots: [{court, hour, date}]
+  return slots.reduce((sum, s) => sum + getPriceForHour(s.hour), 0);
+}
+
+function calcTotalForCourtHours(hours) {
+  return hours.reduce((sum, h) => sum + getPriceForHour(h), 0);
+}
+
+// ========================
+// UTILS
+// ========================
+function getTodayStr() {
+  return new Date().toISOString().split('T')[0];
+}
+
+function formatDate(str) {
+  const d = new Date(str + 'T00:00:00');
+  return d.toLocaleDateString('vi-VN', { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' });
+}
+
+function formatMoney(n) {
+  return n.toLocaleString('vi-VN') + 'đ';
+}
+
+function genId() {
+  // Timestamp (giây) + random 3 chữ số → không trùng kể cả đặt cùng lúc
+  const ts  = Math.floor(Date.now() / 1000).toString(36).toUpperCase().slice(-4);
+  const rnd = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+  return 'BK' + ts + rnd;
+}
+
+function isBooked(date, court, hour) {
+  return bookings.some(b => {
+    if (b.date !== date || b.court !== court || b.status === 'cancelled') return false;
+    const start = HOURS.indexOf(b.startHour);
+    if (start < 0) return false;
+    for (let i = 0; i < b.duration; i++) {
+      if (HOURS[start + i] === hour) return true;
+    }
+    return false;
+  });
+}
+
+function getBookingInfo(date, court, hour) {
+  return bookings.find(b => {
+    if (b.date !== date || b.court !== court || b.status === 'cancelled') return false;
+    const start = HOURS.indexOf(b.startHour);
+    if (start < 0) return false;
+    for (let i = 0; i < b.duration; i++) {
+      if (HOURS[start + i] === hour) return true;
+    }
+    return false;
+  });
+}
+
+function isSelected(date, court, hour) {
+  return selectedSlots.some(s => s.date === date && s.court === court && s.hour === hour);
+}
+
+// ========================
+// DATE STRIP
+// ========================
+function buildDateStrip() {
+  const strip = document.getElementById('dateStrip');
+  strip.innerHTML = '';
+  const today = new Date();
+  const days = ['CN','T2','T3','T4','T5','T6','T7'];
+  for (let i = 0; i < 14; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    const str = d.toISOString().split('T')[0];
+    const btn = document.createElement('button');
+    btn.className = 'date-btn' + (str === selectedDate ? ' active' : '');
+    btn.innerHTML = `<div class="day">${days[d.getDay()]}</div><div class="num">${d.getDate()}</div>`;
+    btn.onclick = () => {
+      selectedDate = str;
+      clearSelection();
+      buildDateStrip();
+      buildGrid();
+    };
+    strip.appendChild(btn);
+  }
+}
+
+// ========================
+// COURT GRID
+// ========================
+function buildGrid() {
+  const head = document.getElementById('courtHead');
+  const body = document.getElementById('courtBody');
+
+  // Header
+  let headHTML = '<tr><th>GIỜ</th>';
+  COURTS.forEach(c => { headHTML += `<th>${c}</th>`; });
+  headHTML += '</tr>';
+  head.innerHTML = headHTML;
+
+  // Body
+  let bodyHTML = '';
+  HOURS.forEach(hour => {
+    const isNight = parseInt(hour) >= 17;
+    const price = getPriceForHour(hour);
+    bodyHTML += `<tr>`;
+    bodyHTML += `<td>
+      <div style="display:flex;flex-direction:column;gap:1px">
+        <span>${hour}</span>
+        <span style="font-size:0.65rem;color:${isNight?'#F39C12':'var(--text2)'}">${isNight?'🌙':'🌤'} ${formatMoney(price)}</span>
+      </div>
+    </td>`;
+    COURTS.forEach(court => {
+      const booked = isBooked(selectedDate, court, hour);
+      const selected = isSelected(selectedDate, court, hour);
+
+      // Member Silver trở lên: đặt sát giờ (chỉ lock khi slot ĐÃ QUA)
+      // Black / guest: lock 30 phút trước
+      const now = new Date();
+      const todayStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+      const slotHour = parseInt(hour);
+      const slotStartMs = new Date(`${selectedDate}T${String(slotHour).padStart(2,'0')}:00:00`).getTime();
+      const canBookLastMinute = currentMember && ['silver','gold','diamond'].includes(currentMember.tier);
+      const isPast = selectedDate === todayStr && (
+        canBookLastMinute
+          ? Date.now() > slotStartMs                       // Silver+: chỉ lock khi đã qua
+          : Date.now() > slotStartMs - 30 * 60 * 1000     // Black/guest: lock 30 phút trước
+      );
+
+      let cls = 'slot ';
+      let label = '';
+      if (isPast && !booked) {
+        cls += 'past';
+        label = '—';
+      } else if (selected) { cls += 'selected'; label = '✓'; }
+      else if (booked) {
+        cls += 'booked';
+        const info = getBookingInfo(selectedDate, court, hour);
+        label = info ? info.name.split(' ').pop() : 'Đã đặt';
+      } else {
+        cls += 'available';
+        label = '+';
+      }
+
+      const disabled = (booked && !selected) || isPast ? 'disabled' : '';
+      const nightStyle = isNight && !booked && !selected && !isPast ? 'border-color:rgba(243,156,18,0.4);color:#F39C12' : '';
+      bodyHTML += `<td><button class="${cls}" style="${nightStyle}" ${disabled} onclick="toggleSlot('${court}','${hour}')">${label}</button></td>`;
+    });
+    bodyHTML += '</tr>';
+  });
+  body.innerHTML = bodyHTML;
+}
+
+// ========================
+// SELECTION
+// ========================
+function toggleSlot(court, hour) {
+  const idx = selectedSlots.findIndex(s => s.date === selectedDate && s.court === court && s.hour === hour);
+  if (idx >= 0) {
+    // Bỏ chọn — luôn cho phép
+    selectedSlots.splice(idx, 1);
+  } else {
+    // Thêm — kiểm tra liên tiếp
+    const sameCourt = selectedSlots.filter(s => s.court === court && s.date === selectedDate);
+    if (sameCourt.length > 0) {
+      const existingHours = sameCourt.map(s => parseInt(s.hour));
+      const newHour       = parseInt(hour);
+      const allHours      = [...existingHours, newHour].sort((a,b) => a-b);
+      const isConsecutive = allHours.every((h,i) => i === 0 || h - allHours[i-1] === 1);
+      if (!isConsecutive) {
+        showNotification('⚠️ Chỉ được đặt giờ liên tiếp trên cùng một sân', 'warning');
+        return;
+      }
+    }
+    selectedSlots.push({ date: selectedDate, court, hour });
+  }
+  updateBookingPanel();
+  buildGrid();
+}
+
+function clearSelection() {
+  selectedSlots = [];
+  updateBookingPanel();
+  buildGrid();
+}
+
+function updateBookingPanel() {
+  const panel = document.getElementById('bookingPanel');
+  const summary = document.getElementById('bookingSummary');
+  if (selectedSlots.length === 0) {
+    panel.classList.remove('show');
+    document.body.classList.remove('panel-open');
+    return;
+  }
+  panel.classList.add('show');
+  document.body.classList.add('panel-open');
+
+  const byCourt = {};
+  selectedSlots.forEach(s => {
+    if (!byCourt[s.court]) byCourt[s.court] = [];
+    byCourt[s.court].push(s.hour);
+  });
+
+  const total = calcTotal(selectedSlots);
+  const perPerson = selectedPlayers > 0 ? Math.round(total / selectedPlayers) : 0;
+  const parts = Object.entries(byCourt).map(([c, hrs]) => `${c}: ${hrs.sort().join(', ')}`);
+  summary.innerHTML = `
+    <div style="color:var(--text2);font-size:0.8rem">${parts.join(' &nbsp;|&nbsp; ')}</div>
+    <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+      <strong>${selectedSlots.length} giờ &nbsp;·&nbsp; ${selectedPlayers} người</strong>
+      <span style="color:var(--green);font-weight:700">${formatMoney(total)}</span>
+      <span style="color:var(--text2);font-size:0.8rem">(${formatMoney(perPerson)}/người)</span>
+    </div>
+  `;
+}
+
+// ========================
+// MODAL
+// ========================
+function openModal() {
+  if (selectedSlots.length === 0) return;
+
+  const byCourt = {};
+  selectedSlots.forEach(s => {
+    if (!byCourt[s.court]) byCourt[s.court] = [];
+    byCourt[s.court].push(s.hour);
+  });
+
+  const lines = Object.entries(byCourt).map(([c, hrs]) => {
+    const subtotal = calcTotalForCourtHours(hrs.sort());
+    return `<strong>${c}</strong>: ${hrs.join(' – ')} &nbsp;<span style="color:var(--green)">${formatMoney(subtotal)}</span>`;
+  }).join('<br>');
+
+  document.getElementById('modalInfo').innerHTML = `
+    📅 <strong>${formatDate(selectedDate)}</strong><br>
+    🏟️ ${lines}<br>
+    <span style="font-size:0.75rem;color:var(--text2)">🌤 Ban ngày 120k/giờ &nbsp;·&nbsp; 🌙 Tối 220k/giờ</span>
+  `;
+  document.getElementById('modalPriceBox').innerHTML = buildPriceBox(selectedPlayers, selectedSlots);
+
+  selectedPlayers = 4;
+  selectedRackets = 0;
+  document.querySelectorAll('.player-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i + 2 === selectedPlayers);
+  });
+  document.getElementById('racketCount').textContent = '0';
+  document.getElementById('modalPriceBox').innerHTML = buildPriceBox(selectedPlayers, selectedSlots, selectedRackets);
+  document.getElementById('inputName').value = '';
+  document.getElementById('inputPhone').value = '';
+  document.getElementById('inputNote').value = '';
+  document.getElementById('bookingModal').classList.add('show');
+}
+
+function changeRackets(delta) {
+  const totalHours = selectedSlots.length;
+  const maxRackets = selectedPlayers * totalHours > 0 ? selectedPlayers : 4;
+  selectedRackets = Math.max(0, Math.min(selectedRackets + delta, maxRackets));
+  document.getElementById('racketCount').textContent = selectedRackets;
+  document.getElementById('modalPriceBox').innerHTML = buildPriceBox(selectedPlayers, selectedSlots, selectedRackets);
+}
+
+function buildPriceBox(players, slots, rackets) {
+  const courtTotal = calcTotal(slots);
+  const totalHours = slots.length;
+  const racketTotal = rackets * PRICE_RACKET * totalHours;
+  const grandTotal = courtTotal + racketTotal;
+  const perPerson = players > 0 ? Math.round(grandTotal / players) : 0;
+
+  const byCourt = {};
+  slots.forEach(s => {
+    if (!byCourt[s.court]) byCourt[s.court] = [];
+    byCourt[s.court].push(s.hour);
+  });
+  const courtRows = Object.entries(byCourt).map(([c, hrs]) => {
+    const sub = calcTotalForCourtHours(hrs);
+    return `<div style="display:flex;justify-content:space-between;font-size:0.82rem"><span style="color:var(--text2)">${c} · ${hrs.length}h</span><span>${formatMoney(sub)}</span></div>`;
+  }).join('');
+
+  const racketRow = rackets > 0 ? `
+    <div style="display:flex;justify-content:space-between;font-size:0.82rem">
+      <span style="color:var(--text2)">🏓 ${rackets} vợt · ${totalHours}h</span>
+      <span>${formatMoney(racketTotal)}</span>
+    </div>` : '';
+
+  return `
+    <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:0.75rem">
+      ${courtRows}${racketRow}
+    </div>
+    <div style="height:1px;background:var(--border);margin-bottom:0.75rem"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-size:0.75rem;color:var(--text2)">Tổng thanh toán</div>
+        <div style="font-family:'Be Vietnam Pro',sans-serif;font-size:2rem;font-weight:700;letter-spacing:0;color:var(--green)">${formatMoney(grandTotal)}</div>
+      </div>
+
+    </div>
+  `;
+}
+
+function setPlayers(n) {
+  selectedPlayers = n;
+  document.querySelectorAll('.player-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i + 2 === n);
+  });
+  document.getElementById('modalPriceBox').innerHTML = buildPriceBox(n, selectedSlots, selectedRackets);
+  updateBookingPanel();
+}
+
+function closeModal() {
+  document.getElementById('bookingModal').classList.remove('show');
+}
+
+
+// ── Race condition prevention ──
+// Reload fresh data từ sheet, check locally với status filter đúng
+// Tránh false-positive từ Apps Script checkSlot (trả sai khi booking cũ đã cancelled)
+async function checkSlotAvailability(newBookings) {
+  try {
+    // Reload fresh bookings từ sheet
+    await loadBookingsFromSheet();
+  } catch(e) {
+    console.warn('[checkSlot] reload error:', e.message);
+  }
+
+  for (const b of newBookings) {
+    const hours = [];
+    for (let i = 0; i < b.duration; i++) {
+      const h = parseInt(b.startHour) + i;
+      hours.push(String(h).padStart(2,'0') + ':00');
+    }
+
+    // Check 1: Local check từ bookings đã load
+    const conflicting = hours.filter(hour =>
+      bookings.some(existing =>
+        existing.date === b.date &&
+        existing.court === b.court &&
+        existing.status !== 'cancelled' &&
+        (() => {
+          const start = parseInt(existing.startHour);
+          for (let i = 0; i < existing.duration; i++) {
+            if (String(start + i).padStart(2,'0') + ':00' === hour) return true;
+          }
+          return false;
+        })()
+      )
+    );
+
+    if (conflicting.length > 0) {
+      showNotification(`❌ ${b.court} — giờ ${conflicting.join(', ')} vừa được đặt bởi người khác. Vui lòng chọn lại.`, 'error');
+      buildGrid();
+      return true;
+    }
+
+    // Check 2: Server-side check qua GAS (đảm bảo ko bị race condition)
+    try {
+      const params = new URLSearchParams({ action:'checkSlot', date:b.date, court:b.court, hours:hours.join(',') });
+      const res = await fetch('/api/sheet?' + params.toString());
+      const data = await res.json();
+      if (data.available === false) {
+        const serverConflicts = data.conflicts || hours;
+        showNotification(`❌ ${b.court} — giờ ${serverConflicts.join(', ')} đã bị đặt. Vui lòng chọn lại.`, 'error');
+        await loadBookingsFromSheet();
+        buildGrid();
+        return true;
+      }
+    } catch(e) {
+      console.warn('[checkSlot] server check error:', e.message);
+      // fail-open nếu server lỗi
+    }
+  }
+  return false;
+}
+
+async function confirmBooking() {
+  _isConfirming = true;
+  // Prevent double submit
+  const confirmBtn  = document.getElementById('btnConfirmPayment');
+  const confirmText = document.getElementById('btnConfirmText');
+  if (confirmBtn && confirmBtn.disabled) return;
+
+  // Helper: restore button khi có lỗi
+  function restoreBtn() {
+    if (confirmBtn)  { confirmBtn.disabled = false; confirmBtn.style.opacity='1'; confirmBtn.style.pointerEvents='auto'; }
+    if (confirmText) { confirmText.textContent = 'Xác nhận đặt sân →'; }
+  }
+
+  if (confirmBtn)  { confirmBtn.disabled = true; confirmBtn.style.opacity='0.6'; }
+  if (confirmText) { confirmText.textContent = '⏳ Đang xử lý...'; }
+
+  // Auto-restore sau 15 giây phòng trường hợp bị treo
+  const safetyTimer = setTimeout(restoreBtn, 15000);
+
+  const name = document.getElementById('inputName').value.trim();
+  const phone = document.getElementById('inputPhone').value.trim();
+  const note = document.getElementById('inputNote').value.trim();
+  const email = '';
+
+  if (!name) { clearTimeout(safetyTimer); restoreBtn(); alert('Vui lòng nhập họ tên.'); return; }
+  if (!phone || !/^0\d{9}$/.test(phone.replace(/\s/g,''))) { clearTimeout(safetyTimer); restoreBtn(); alert('Vui lòng nhập số điện thoại hợp lệ (10 số, bắt đầu bằng 0).'); return; }
+
+  // Validate đặt trước tối thiểu 30 phút (chỉ áp dụng cho Black / guest)
+  // Silver trở lên + Admin: được đặt sát giờ
+  const now        = new Date();
+  const todayStr   = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  const canBookLastMinute = currentMember && ['silver','gold','diamond'].includes(currentMember.tier);
+  if (!canBookLastMinute && selectedDate === todayStr && selectedSlots.length > 0) {
+    const earliestHour = Math.min(...selectedSlots.map(s => parseInt(s.hour)));
+    const deadlineMs   = new Date(`${selectedDate}T${String(earliestHour).padStart(2,'0')}:00:00`).getTime();
+    if (Date.now() > deadlineMs - 30 * 60 * 1000) {
+      clearTimeout(safetyTimer); restoreBtn();
+      alert('⚠️ Vui lòng đặt sân trước ít nhất 30 phút.\n💡 Hội viên Silver trở lên được đặt sát giờ!\nLiên hệ quản lý nếu cần đặt gấp: 0889398931');
+      return;
+    }
+  }
+  if (selectedPlayers < 2 || selectedPlayers > 4) { clearTimeout(safetyTimer); restoreBtn(); alert('Vui lòng chọn số người (2–4).'); return; }
+
+  const byCourt = {};
+  selectedSlots.forEach(s => {
+    const key = s.court + '|' + s.date;
+    if (!byCourt[key]) byCourt[key] = { court: s.court, date: s.date, hours: [] };
+    byCourt[key].hours.push(s.hour);
+  });
+
+  const newBookings = [];
+  Object.values(byCourt).forEach(group => {
+    group.hours.sort();
+    const subtotal = calcTotalForCourtHours(group.hours);
+    const racketFee = selectedRackets * PRICE_RACKET * group.hours.length;
+    const booking = {
+      id: genId(),
+      name, phone, email,
+      note: note + (currentMember ? ' [MBR:' + (currentMember.tier||'black').toUpperCase() + ']' : ''),
+      date: group.date,
+      court: group.court,
+      startHour: group.hours[0],
+      duration: group.hours.length,
+      players: selectedPlayers,
+      rackets: selectedRackets,
+      courtTotal: subtotal,
+      racketTotal: racketFee,
+      total: subtotal + racketFee,
+      status: 'pending',
+      payment: selectedPayment || 'cash'
+    };
+    newBookings.push(booking);
+  });
+
+  // ── Race condition check: verify slot chưa bị chiếm ──
+  // CRITICAL: check TRƯỚC khi push vào bookings[] để tránh tự conflict với chính mình
+  const conflictFound = await checkSlotAvailability(newBookings);
+  if (conflictFound) { _isConfirming = false; clearTimeout(safetyTimer); restoreBtn(); return; } // hàm đã show notification
+
+  // Chỉ push vào local bookings[] SAU KHI đã verify không conflict
+  newBookings.forEach(b => bookings.push(b));
+
+  // Gửi lên Google Sheet (bất đồng bộ, không chặn UI)
+  // Apply tier discount theo tier HIỆN TẠI — KHÔNG thăng bậc ở đây
+  // Membership spending chỉ tăng khi admin CONFIRM (GAS handleUpdateStatus xử lý)
+  if (currentMember && currentMember.tier) {
+    const tierDisc = getTierDiscount();
+    if (tierDisc > 0) {
+      newBookings.forEach(b => {
+        const disc = Math.round(b.total * tierDisc / 100);
+        b.total = b.total - disc;
+        b.note = b.note + ' | Tier ' + (currentMember.tier||'').toUpperCase() + ' -' + tierDisc + '%: -' + formatMoney(disc);
+      });
+    }
+  }
+  newBookings.forEach(b => {
+    sendToSheet(b);
+    // Telegram: đơn mới
+    fetch('/api/notify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'new_order', booking: b })
+    }).catch(() => {});
+    // Nếu QR → thêm thông báo chuyển khoản vào nhóm Thanh toán
+    if (b.payment === 'qr') {
+      fetch('/api/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'payment_qr_received', booking: b })
+      }).catch(() => {});
+    }
+  });
+  // Spending sẽ được cập nhật bởi Apps Script khi admin confirm
+
+  // Restore button & clear safety timer
+  clearTimeout(safetyTimer);
+  restoreBtn();
+
+  document.getElementById('paymentModal').classList.remove('show');
+
+  const courtTotal = calcTotal(selectedSlots);
+  const totalHours = selectedSlots.length;
+  const racketTotal = selectedRackets * PRICE_RACKET * totalHours;
+  const grandTotal = courtTotal + racketTotal;
+  const perPerson = Math.round(grandTotal / selectedPlayers);
+  document.getElementById('successMsg').textContent = 'Quản lý sẽ liên hệ xác nhận qua SĐT.';
+  document.getElementById('successDetail').innerHTML = `
+    👤 <strong>${name}</strong> &nbsp;·&nbsp; 📞 ${phone}<br>
+    📅 ${formatDate(selectedDate)}<br>
+    🏟️ ${[...new Set(selectedSlots.map(s=>s.court))].join(', ')}<br>
+    ⏱️ ${totalHours} giờ &nbsp;·&nbsp; 👥 ${selectedPlayers} người${selectedRackets > 0 ? ` &nbsp;·&nbsp; 🏓 ${selectedRackets} vợt` : ''}<br>
+    💰 Sân: <strong>${formatMoney(courtTotal)}</strong>${racketTotal > 0 ? ` + Vợt: <strong>${formatMoney(racketTotal)}</strong>` : ''}<br>
+    💳 Tổng: <strong style="color:var(--green)">${formatMoney(grandTotal)}</strong> &nbsp;·&nbsp; Mỗi người: <strong style="color:var(--yellow)">${formatMoney(perPerson)}</strong><br>
+    💳 Thanh toán: <strong>${selectedPayment === 'qr' ? '📲 Đã chuyển khoản QR' : '🏟️ Trả tại sân (giữ 30 phút)'}</strong><br>
+    ${currentMember ? '🏅 Hội viên: <strong style="color:' + (TIER_CONFIG[currentMember.tier]?.color||'#8B949E') + '">' + (TIER_CONFIG[currentMember.tier]?.label||'⚫ Black') + '</strong> · Giảm <strong>' + getTierDiscount() + '%</strong><br>' : ''}
+    🔔 Trạng thái: <span style="color:var(--yellow)">Chờ xác nhận</span>
+  `;
+
+  // Nếu chuyển khoản → hiện "đang chờ xác nhận thanh toán"
+  const isQR = selectedPayment === 'qr';
+  document.getElementById('successIcon').textContent = isQR ? '⏳' : '✅';
+  document.getElementById('successTitle').textContent = isQR ? 'CHỜ XÁC NHẬN THANH TOÁN' : 'ĐẶT SÂN THÀNH CÔNG!';
+  document.getElementById('successMsg').textContent = isQR
+    ? 'Quản lý sẽ xác nhận sau khi nhận được chuyển khoản.'
+    : 'Quản lý sẽ liên hệ xác nhận qua SĐT.';
+  _isConfirming = false;
+  openSuccessModal();
+  clearSelection();
+  buildGrid();
+}
+
+function closeSuccessModal() {
+  clearInterval(window._successTimer);
+  window._successTimer = null;
+  document.getElementById('successModal').classList.remove('show');
+}
+
+function openSuccessModal() {
+  document.getElementById('successModal').classList.add('show');
+  var n = 30;
+  var el = document.getElementById('successCountdown');
+  if (el) el.textContent = n;
+  clearInterval(window._successTimer);
+  window._successTimer = setInterval(function() {
+    n--;
+    if (el) el.textContent = n;
+    if (n <= 0) closeSuccessModal();
+  }, 1000);
+}
+
+// ========================
+// NOTIFICATION
+// ========================
+function showNotification(msg) {
+  const n = document.createElement('div');
+  n.className = 'notification';
+  n.textContent = msg;
+  document.body.appendChild(n);
+  setTimeout(() => n.remove(), 3000);
+}
+
+
+// ========================
+// PAYMENT
+// ========================
+let selectedPayment = null;
+let pendingBookingData = null;
+
+function goToPayment() {
+  const name = document.getElementById('inputName').value.trim();
+  const phone = document.getElementById('inputPhone').value.trim();
+  const note = document.getElementById('inputNote').value.trim();
+
+  if (!name) { alert('Vui lòng nhập họ tên.'); return; }
+  if (!phone || !/^0\d{9}$/.test(phone.replace(/\s/g,''))) {
+    alert('Vui lòng nhập số điện thoại hợp lệ (10 số, bắt đầu bằng 0).'); return;
+  }
+
+  const totalHours = selectedSlots.length;
+  const courtTotal = calcTotal(selectedSlots);
+  const racketTotal = selectedRackets * PRICE_RACKET * totalHours;
+  const grandTotal = courtTotal + racketTotal;
+
+  // Tính tier discount ngay khi mở payment modal
+  const tierDisc   = getTierDiscount(); // % discount
+  const discAmount = currentMember && tierDisc > 0 ? Math.round(grandTotal * tierDisc / 100) : 0;
+  const finalTotal = grandTotal - discAmount;
+
+  pendingBookingData = { name, phone, note };
+
+  // Render tier discount banner
+  const tierBanner = document.getElementById('tierDiscountBanner');
+  const tierText   = document.getElementById('tierDiscountText');
+  const tierAmt    = document.getElementById('tierDiscountAmount');
+  const tierLabel  = document.getElementById('tierDiscountLabel');
+  if (tierBanner) {
+    if (currentMember && tierDisc > 0) {
+      const tierCfg = TIER_CONFIG[currentMember.tier] || TIER_CONFIG.black;
+      tierBanner.style.display = '';
+      tierBanner.style.background = tierCfg.bg;
+      tierBanner.style.borderColor = tierCfg.color + '55';
+      if (tierLabel) { tierLabel.textContent = tierCfg.label; tierLabel.style.color = tierCfg.color; }
+      if (tierText)  tierText.innerHTML = 'Giảm <strong style="color:' + tierCfg.color + '">' + tierDisc + '%</strong> tự động cho đơn này';
+      if (tierAmt)   { tierAmt.textContent = '−' + formatMoney(discAmount); tierAmt.style.color = tierCfg.color; }
+    } else {
+      tierBanner.style.display = 'none';
+    }
+  }
+
+  document.getElementById('paymentSummary').innerHTML = `
+    <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:4px">
+      <span style="color:var(--text2)">📅 ${formatDate(selectedDate)}</span>
+      <span style="color:var(--text2)">${totalHours} giờ · ${[...new Set(selectedSlots.map(s=>s.court))].join(', ')}</span>
+    </div>
+    ${discAmount > 0 ? `
+    <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:4px">
+      <span style="color:var(--text2)">Giá gốc</span>
+      <span style="color:var(--text2);text-decoration:line-through">${formatMoney(grandTotal)}</span>
+    </div>` : ''}
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span style="color:var(--text2)">💰 Tổng cần thanh toán</span>
+      <span style="font-family:'DM Sans',sans-serif;font-size:1.8rem;font-weight:700;color:var(--green)">${formatMoney(finalTotal)}</span>
+    </div>
+  `;
+
+  closeModal();
+  selectedPayment = null;
+  document.getElementById('qrContent').style.display = 'none';
+  document.getElementById('cashContent').style.display = 'none';
+  document.getElementById('btnQR').style.borderColor = 'var(--border)';
+  document.getElementById('btnCash').style.borderColor = 'var(--border)';
+  document.getElementById('btnConfirmPayment').style.opacity = '0.4';
+  document.getElementById('btnConfirmPayment').style.pointerEvents = 'none';
+  document.getElementById('paymentModal').classList.add('show');
+}
+
+function selectPayment(type) {
+  selectedPayment = type;
+  document.getElementById('btnQR').style.borderColor = type === 'qr' ? 'var(--green)' : 'var(--border)';
+  document.getElementById('btnCash').style.borderColor = type === 'cash' ? 'var(--yellow)' : 'var(--border)';
+  document.getElementById('qrContent').style.display = type === 'qr' ? 'block' : 'none';
+  document.getElementById('cashContent').style.display = type === 'cash' ? 'block' : 'none';
+
+  if (type === 'qr') {
+    // Tạo QR chuyển khoản MSB VietQR — dùng finalTotal đã trừ discount
+    const totalHours = selectedSlots.length;
+    const courtTotal = calcTotal(selectedSlots);
+    const racketTotal = selectedRackets * PRICE_RACKET * totalHours;
+    const grandTotal = courtTotal + racketTotal;
+    const tierDisc   = getTierDiscount();
+    const discAmount = currentMember && tierDisc > 0 ? Math.round(grandTotal * tierDisc / 100) : 0;
+    const finalTotal = grandTotal - discAmount;
+    const bookId = 'BK' + String(bookings.length + 1).padStart(3, '0');
+    const courts = [...new Set(selectedSlots.map(s => s.court.replace('Sân ','S')))].join('');
+    const note = encodeURIComponent('DatSan ' + bookId + ' ' + courts + ' ' + selectedSlots[0].hour);
+    const qrUrl = `https://img.vietqr.io/image/MSB-2320092005-compact2.png?amount=${finalTotal}&addInfo=${note}&accountName=TRAN%20HOANG%20GIA%20KHANH`;
+    document.getElementById('qrImg').src = qrUrl;
+    document.getElementById('qrNote').textContent = 'DatSan ' + bookId + ' ' + courts + ' ' + selectedSlots[0].hour;
+  }
+
+  document.getElementById('btnConfirmPayment').style.opacity = '1';
+  document.getElementById('btnConfirmPayment').style.pointerEvents = 'auto';
+}
+
+function closePaymentModal() {
+  document.getElementById('paymentModal').classList.remove('show');
+  document.getElementById('bookingModal').classList.add('show');
+}
+
+
+// ========================
+// LOAD CONFIG từ Sheet (sync với V9 Super Admin)
+// ========================
+async function loadConfig() {
+  try {
+    const res = await fetch('/api/sheet?action=readConfig');
+    if (!res.ok) return;
+    const cfg = await res.json();
+    if (!cfg || cfg.error || !cfg.priceDay) return;
+
+    // Áp dụng giá
+    if (cfg.priceDay)    PRICE_DAY    = Number(cfg.priceDay);
+    if (cfg.priceNight)  PRICE_NIGHT  = Number(cfg.priceNight);
+    if (cfg.priceRacket) PRICE_RACKET = Number(cfg.priceRacket);
+
+    // Áp dụng sân active
+    if (cfg.activeCourts && Array.isArray(cfg.activeCourts) && cfg.activeCourts.length > 0) {
+      COURTS = cfg.activeCourts;
+    }
+
+    // Áp dụng giờ
+    if (cfg.hourOpen !== undefined && cfg.hourClose !== undefined) {
+      const hours = [];
+      for (let h = Number(cfg.hourOpen); h < Number(cfg.hourClose); h++) {
+        hours.push(String(h).padStart(2,'0') + ':00');
+      }
+      HOURS = hours;
+    }
+    if (cfg.hourNight !== undefined) window._nightHour = Number(cfg.hourNight);
+
+    console.log('[V10 Config] Applied:', cfg);
+    applyUiConfig(cfg);
+  } catch(e) {
+    console.warn('[V10 Config] Error:', e.message);
+  }
+}
+
+// ========================
+// INIT
+// ========================
+document.addEventListener('DOMContentLoaded', () => {
+  // Đảm bảo tất cả modal đóng khi load (tránh cache stuck)
+  ['bookingModal','paymentModal','successModal','memberModal'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('show');
+  });
+
+  // Hiện grid trống ngay lập tức
+  buildDateStrip();
+  buildGrid();
+
+  // Load config + bookings song song
+  Promise.all([
+    loadConfig(),
+    loadBookingsFromSheet()
+  ]).then(() => {
+    // Rebuild grid sau khi có đủ data
+    buildDateStrip();
+    buildGrid();
+  });
+
+  // Refresh grid mỗi phút — cập nhật slot đã qua giờ thành màu xám
+  setInterval(() => buildGrid(), 60 * 1000);
+
+  // Polling sheet mỗi 30s để cập nhật slot realtime (tránh user thấy trống rồi conflict khi đặt)
+  setInterval(async () => {
+    try {
+      await loadBookingsFromSheet(selectedDate);
+    } catch(e) {}
+  }, 30 * 1000);
+
+  // Polling membership mỗi 60s — cập nhật tier/spending realtime sau khi admin confirm đơn
+  setInterval(async () => {
+    if (!currentMember || !currentMember.phone) return;
+    try {
+      const res = await fetch('/api/sheet?action=getMember&phone=' + encodeURIComponent(currentMember.phone));
+      const data = await res.json();
+      if (data.found && data.member) {
+        const m = data.member;
+        // Chỉ update nếu có thay đổi thực sự (tier hoặc spending)
+        if (m.tier !== currentMember.tier || m.monthlySpent !== currentMember.monthlySpent) {
+          console.log('[Membership] Tier updated:', currentMember.tier, '->', m.tier, '| Spent:', m.monthlySpent);
+          onMemberLoggedIn(m, true);
+          renderMemberDashboard(m);
+          renderTierDiscountBanner();
+        }
+      }
+    } catch(e) {}
+  }, 60 * 1000);
+
+  // Khi user quay lại tab → reload ngay
+  document.addEventListener('visibilitychange', async () => {
+    if (document.visibilityState === 'visible') {
+      try { await loadBookingsFromSheet(selectedDate); } catch(e) {}
+    }
+  });
+
+});
+
+// ════════════════════════════════════════════════
+// MEMBERSHIP SYSTEM v2 — email+password auth
+// ════════════════════════════════════════════════
+
+let currentMember   = null;
+let _isConfirming   = false; // guard: tránh polling overwrite booking khi đang confirm
+// selectedVoucher removed — using tier discount
+let _mRegData       = {};   // tạm lưu khi đăng ký
+let _mForgotPhone   = '';
+let _mForgotEmail   = '';
+
+// ── Helpers ──────────────────────────────────
+function togglePassVis(id, btn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.type = el.type === 'password' ? 'text' : 'password';
+  btn.textContent = el.type === 'password' ? '👁' : '🙈';
+}
+function setErr(id, msg) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = msg || '';
+}
+function apiGet(qs) {
+  return fetch('/api/sheet?' + qs).then(r => r.json());
+}
+function hashPass(pass) {
+  // Simple deterministic hash — đủ cho 6-digit PIN (không dùng cho secret thực sự)
+  let h = 0;
+  for (let i = 0; i < pass.length; i++) h = Math.imul(31, h) + pass.charCodeAt(i) | 0;
+  return (h >>> 0).toString(16).padStart(8, '0');
+}
+
+// ── Session ───────────────────────────────────
+(function restoreMemberSession() {
+  try {
+    const saved = localStorage.getItem('memberSession_v2');
+    if (!saved) return;
+    const m = JSON.parse(saved);
+    if (!m || !m.phone) return;
+    if (m._savedAt && Date.now() - m._savedAt > 7 * 24 * 60 * 60 * 1000) {
+      localStorage.removeItem('memberSession_v2'); return;  // 7 ngày
+    }
+    currentMember = m;
+    onMemberLoggedIn(m, false);
+  } catch(e) {}
+})();
+
+// ── Modal navigation ──────────────────────────
+function openMemberLogin() {
+  if (currentMember) {
+    showMemberState('dashboard');
+    renderMemberDashboard(currentMember);
+  } else {
+    showMemberState('choose');
+  }
+  document.getElementById('memberModal').classList.add('show');
+}
+function closeMemberModal() {
+  document.getElementById('memberModal').classList.remove('show');
+}
+function showMemberState(state) {
+  ['choose','login','register','regOtp','forgot','forgotOtp','dashboard'].forEach(s => {
+    const el = document.getElementById('mState_' + s);
+    if (el) el.style.display = s === state ? '' : 'none';
+  });
+  // clear errors
+  ['mLoginError','mRegError','mRegOtpError','mForgotError','mForgotOtpError']
+    .forEach(id => setErr(id, ''));
+}
+
+// ── REGISTER step 1: gửi OTP ─────────────────
+async function sendRegisterOtp() {
+  const name  = document.getElementById('mRegName').value.trim();
+  const phone = document.getElementById('mRegPhone').value.replace(/\s/g,'');
+  const email = document.getElementById('mRegEmail').value.trim();
+  setErr('mRegError', '');
+  if (!name)  { setErr('mRegError','Vui lòng nhập họ tên'); return; }
+  if (!/^0\d{9}$/.test(phone)) { setErr('mRegError','Số điện thoại không hợp lệ'); return; }
+  if (!email || !email.includes('@')) { setErr('mRegError','Email không hợp lệ'); return; }
+
+  _mRegData = { name, phone, email };
+  const sendBtn = document.querySelector('#mState_register button[onclick="sendRegisterOtp()"]');
+  if (sendBtn) { sendBtn.disabled = true; sendBtn.textContent = '⏳ Đang gửi...'; }
+  try {
+    const data = await apiGet('action=memberOtp&phone=' + encodeURIComponent(phone) + '&method=email&email=' + encodeURIComponent(email) + '&purpose=register');
+    if (sendBtn) { sendBtn.disabled = false; sendBtn.textContent = 'Gửi mã OTP →'; }
+    if (data.error) {
+      setErr('mRegError', data.error + ' (Nếu lỗi liên tục, liên hệ quản lý)');
+      return;
+    }
+    document.getElementById('mRegOtpHint').textContent = 'Mã OTP đã gửi đến ' + email + '. Kiểm tra cả hộp thư Spam.';
+    showMemberState('regOtp');
+  } catch(e) {
+    if (sendBtn) { sendBtn.disabled = false; sendBtn.textContent = 'Gửi mã OTP →'; }
+    setErr('mRegError','Lỗi kết nối. Vui lòng thử lại.');
+  }
+}
+
+// ── REGISTER step 2: xác nhận OTP + set pass ─
+async function doRegister() {
+  const otp   = document.getElementById('mRegOtp').value.trim();
+  const pass1 = document.getElementById('mRegPass1').value;
+  const pass2 = document.getElementById('mRegPass2').value;
+  setErr('mRegOtpError','');
+  if (!otp || !/^\d{6}$/.test(otp)) { setErr('mRegOtpError','Nhập mã OTP 6 chữ số'); return; }
+  if (!/^\d{6}$/.test(pass1))   { setErr('mRegOtpError','Mật khẩu phải là 6 chữ số'); return; }
+  if (pass1 !== pass2)           { setErr('mRegOtpError','Mật khẩu nhập lại không khớp'); return; }
+  try {
+    const data = await apiGet(
+      'action=registerMember'
+      + '&name='  + encodeURIComponent(_mRegData.name)
+      + '&phone=' + encodeURIComponent(_mRegData.phone)
+      + '&email=' + encodeURIComponent(_mRegData.email)
+      + '&otp='   + otp
+      + '&passHash=' + hashPass(pass1)
+    );
+    if (!data.success) { setErr('mRegOtpError', data.error || 'Đăng ký thất bại'); return; }
+    onMemberLoggedIn(data.member, true);
+    showMemberState('dashboard');
+    renderMemberDashboard(data.member);
+  } catch(e) { setErr('mRegOtpError','Lỗi kết nối'); }
+}
+
+// ── LOGIN ─────────────────────────────────────
+async function doLogin() {
+  const phone = document.getElementById('mLoginPhone').value.replace(/\s/g,'');
+  const pass  = document.getElementById('mLoginPass').value;
+  setErr('mLoginError','');
+  if (!/^0\d{9}$/.test(phone)) { setErr('mLoginError','Số điện thoại không hợp lệ'); return; }
+  if (!/^\d{6}$/.test(pass))   { setErr('mLoginError','Mật khẩu phải là 6 chữ số'); return; }
+  try {
+    // Thử cả với và không có số 0 đầu để match mọi cách lưu trong Sheet
+    const data = await apiGet(
+      'action=loginMember&phone=' + encodeURIComponent(phone) + '&passHash=' + hashPass(pass)
+    );
+    if (!data.success) {
+      // Nếu báo "chưa đăng ký" nhưng user vừa tạo tài khoản → có thể phone lưu thiếu số 0
+      // Thử lại với phone không có 0 đầu
+      if (data.error && data.error.includes('chưa đăng ký')) {
+        const phoneAlt = phone.startsWith('0') ? phone.slice(1) : '0' + phone;
+        const data2 = await apiGet(
+          'action=loginMember&phone=' + encodeURIComponent(phoneAlt) + '&passHash=' + hashPass(pass)
+        );
+        if (data2.success) {
+          onMemberLoggedIn(data2.member, true);
+          showMemberState('dashboard');
+          renderMemberDashboard(data2.member);
+          return;
+        }
+      }
+      setErr('mLoginError', data.error || 'Sai số điện thoại hoặc mật khẩu'); return;
+    }
+    onMemberLoggedIn(data.member, true);
+    showMemberState('dashboard');
+    renderMemberDashboard(data.member);
+  } catch(e) { setErr('mLoginError','Lỗi kết nối'); }
+}
+
+// ── FORGOT PASSWORD ───────────────────────────
+async function sendForgotOtp() {
+  _mForgotPhone = document.getElementById('mForgotPhone').value.replace(/\s/g,'');
+  _mForgotEmail = document.getElementById('mForgotEmail').value.trim();
+  setErr('mForgotError','');
+  if (!/^0\d{9}$/.test(_mForgotPhone)) { setErr('mForgotError','Số điện thoại không hợp lệ'); return; }
+  if (!_mForgotEmail.includes('@'))     { setErr('mForgotError','Email không hợp lệ'); return; }
+  try {
+    const data = await apiGet(
+      'action=memberOtp&phone=' + encodeURIComponent(_mForgotPhone)
+      + '&method=email&email=' + encodeURIComponent(_mForgotEmail) + '&purpose=reset'
+    );
+    if (data.error) { setErr('mForgotError', data.error); return; }
+    document.getElementById('mForgotOtpHint').textContent = 'Mã OTP đã gửi đến ' + _mForgotEmail;
+    showMemberState('forgotOtp');
+  } catch(e) { setErr('mForgotError','Lỗi kết nối'); }
+}
+
+async function doResetPassword() {
+  const otp   = document.getElementById('mForgotOtp').value.trim();
+  const pass1 = document.getElementById('mNewPass1').value;
+  const pass2 = document.getElementById('mNewPass2').value;
+  setErr('mForgotOtpError','');
+  if (!otp || !/^\d{6}$/.test(otp))   { setErr('mForgotOtpError','Nhập mã OTP 6 chữ số'); return; }
+  if (!/^\d{6}$/.test(pass1))     { setErr('mForgotOtpError','Mật khẩu phải là 6 chữ số'); return; }
+  if (pass1 !== pass2)             { setErr('mForgotOtpError','Mật khẩu nhập lại không khớp'); return; }
+  try {
+    const data = await apiGet(
+      'action=resetMemberPass'
+      + '&phone='    + encodeURIComponent(_mForgotPhone)
+      + '&email='    + encodeURIComponent(_mForgotEmail)
+      + '&otp='      + otp
+      + '&passHash=' + hashPass(pass1)
+    );
+    if (!data.success) { setErr('mForgotOtpError', data.error || 'Đặt lại mật khẩu thất bại'); return; }
+    onMemberLoggedIn(data.member, true);
+    showMemberState('dashboard');
+    renderMemberDashboard(data.member);
+  } catch(e) { setErr('mForgotOtpError','Lỗi kết nối'); }
+}
+
+// ── LOGOUT ────────────────────────────────────
+function logoutMember() {
+  currentMember = null;
+  localStorage.removeItem('memberSession_v2');
+  const btn = document.getElementById('memberNavBtn');
+  if (btn) { btn.textContent = '👤 Hội Viên'; }
+  const badge = document.getElementById('memberBadge');
+  if (badge) badge.classList.remove('visible');
+  document.getElementById('memberAutofillBanner').style.display = 'none';
+  const vs = document.getElementById('tierDiscountBanner');
+  if (vs) vs.style.display = 'none';
+  closeMemberModal();
+}
+
+// ── ON LOGGED IN ──────────────────────────────
+function onMemberLoggedIn(member, save) {
+  // Normalize: GAS cũ có thể không trả tier → default black
+  if (!member.tier || !TIER_CONFIG[member.tier]) member.tier = 'black';
+  if (member.tierDiscount === undefined) member.tierDiscount = TIER_CONFIG[member.tier].discount;
+  currentMember = member;
+  if (save) localStorage.setItem('memberSession_v2', JSON.stringify({ ...member, _savedAt: Date.now() }));
+  const tierCfg = TIER_CONFIG[member.tier] || TIER_CONFIG.black;
+  const btn = document.getElementById('memberNavBtn');
+  if (btn) btn.textContent = tierCfg.label.split(' ')[0] + ' ' + member.name.split(' ').pop();
+  const badge = document.getElementById('memberBadge');
+  if (badge) {
+    document.getElementById('memberBadgeName').textContent = member.name;
+    document.getElementById('memberBadgePoints').textContent = tierCfg.label;
+    badge.style.color = tierCfg.color;
+    badge.style.background = tierCfg.bg;
+    badge.classList.add('visible');
+  }
+  autoFillFromMember(member);
+}
+
+function autoFillFromMember(member) {
+  const nameEl  = document.getElementById('inputName');
+  const phoneEl = document.getElementById('inputPhone');
+  if (nameEl  && !nameEl.value)  nameEl.value  = member.name;
+  if (phoneEl && !phoneEl.value) phoneEl.value = member.phone;
+  const banner = document.getElementById('memberAutofillBanner');
+  if (banner) banner.style.display = 'flex';
+}
+function clearMemberAutofill() {
+  document.getElementById('inputName').value  = '';
+  document.getElementById('inputPhone').value = '';
+  document.getElementById('memberAutofillBanner').style.display = 'none';
+}
+
+// ── DASHBOARD ────────────────────────────────
+function renderMemberDashboard(member) {
+  document.getElementById('mDashName').textContent  = member.name;
+  document.getElementById('mDashPhone').textContent = member.phone;
+  const tier    = member.tier || 'black';
+  const tierCfg = TIER_CONFIG[tier] || TIER_CONFIG.black;
+  const monthly = member.monthlySpent || 0;
+
+  // Tiers theo thứ tự
+  const tiers = ['black','silver','gold','diamond'];
+  const mins  = { black:0, silver:500000, gold:1000000, diamond:2000000 };
+  const curIdx = tiers.indexOf(tier);
+  const nextTierName = tiers[Math.min(curIdx+1, 3)];
+  const nextMin = mins[nextTierName];
+  const progress = tier === 'diamond' ? 100 : Math.min(100, Math.round(monthly / nextMin * 100));
+  const needed = Math.max(0, nextMin - monthly);
+
+  // Tier badge
+  const tierBadgeEl = document.getElementById('mDashTierBadge');
+  if (tierBadgeEl) {
+    tierBadgeEl.textContent = tierCfg.label;
+    tierBadgeEl.style.color = tierCfg.color;
+    tierBadgeEl.style.background = tierCfg.bg;
+    tierBadgeEl.style.border = '1px solid ' + tierCfg.color + '44';
+  }
+  // Spent this month
+  const spentEl = document.getElementById('mDashSpent');
+  if (spentEl) spentEl.textContent = formatMoney(monthly);
+  // Progress bar
+  const fillEl = document.getElementById('mDashPointsFill');
+  if (fillEl) { fillEl.style.width = progress + '%'; fillEl.style.background = tierCfg.color; }
+  // Needed + next tier
+  const neededEl = document.getElementById('mDashPointsNeeded');
+  const nextEl   = document.getElementById('mDashNextTier');
+  if (tier === 'diamond') {
+    if (neededEl) neededEl.textContent = '';
+    const neededRow = neededEl && neededEl.closest('div');
+    if (neededRow) neededRow.style.display = 'none';
+  } else {
+    if (neededEl) neededEl.textContent = formatMoney(needed);
+    if (nextEl)   nextEl.textContent = TIER_CONFIG[nextTierName].label;
+  }
+  // Discount
+  const discEl = document.getElementById('mDashDiscount');
+  if (discEl) discEl.textContent = 'Giảm ' + tierCfg.discount + '% tự động';
+  // Highlight active tier in grid
+  const tierOrder = ['black','silver','gold','diamond'];
+  document.querySelectorAll('#mState_dashboard .tier-grid-item').forEach((el, i) => {
+    el.style.opacity = i <= tierOrder.indexOf(tier) ? '1' : '0.4';
+  });
+}
+
+// ── VOUCHER ───────────────────────────────────
+// Hiển thị tier discount trong payment modal
+function renderTierDiscountBanner() {
+  const banner = document.getElementById('tierDiscountBanner');
+  const textEl = document.getElementById('tierDiscountText');
+  if (!banner || !textEl) return;
+  if (!currentMember || !currentMember.tier) { banner.style.display = 'none'; return; }
+  const tierCfg = TIER_CONFIG[currentMember.tier] || TIER_CONFIG.black;
+  const disc    = getTierDiscount();
+  if (disc <= 0) { banner.style.display = 'none'; return; }
+  banner.style.display  = '';
+  banner.style.background = tierCfg.bg;
+  banner.style.border   = '1px solid ' + tierCfg.color + '55';
+  textEl.innerHTML = tierCfg.label.split(' ')[0] + ' <strong style="color:' + tierCfg.color + '">' + tierCfg.label.split(' ').slice(1).join(' ') + '</strong> · Giảm tự động <strong style="color:' + tierCfg.color + '">' + disc + '%</strong> cho đơn này';
+}
+
+// addPointsForBooking removed — tier system handles discount automatically
+
+// ── Hook openModal: autofill + tier discount ─
+(function() {
+  var _orig = openModal;
+  openModal = function() {
+    _orig();
+    setTimeout(() => {
+      if (currentMember) autoFillFromMember(currentMember);
+      renderTierDiscountBanner();
+    }, 50);
+  };
+})();
+
+// ── UI CONFIG FROM SHEET ──────────────────────
+function applyUiConfig(cfg) {
+  if (!cfg) return;
+  const g = id => document.getElementById(id);
+
+  // Tên sân → split: phần cuối màu xanh
+  if (cfg.uiVenueName) {
+    const parts  = cfg.uiVenueName.trim().split(' ');
+    const accent = parts.pop();
+    const main   = parts.join(' ');
+    if (g('heroTitle'))  g('heroTitle').childNodes[0].textContent = (main ? main + ' ' : '');
+    if (g('heroAccent')) g('heroAccent').textContent = accent;
+  }
+
+  // Subtitle: địa chỉ · số sân · giờ
+  const s = g('heroSubtitle');
+  if (s) {
+    const addr   = cfg.uiVenueAddress    || 'Nhơn Trạch, Đồng Nai';
+    const courts = cfg.uiVenueCourtCount || '5';
+    const open   = cfg.hourOpen  !== undefined ? String(cfg.hourOpen).padStart(2,'0')  + ':00' : '06:00';
+    const close  = cfg.hourClose !== undefined ? String(cfg.hourClose).padStart(2,'0') + ':00' : '22:00';
+    s.innerHTML  = addr + ' &nbsp;·&nbsp; ' + courts + ' sân có mái che &nbsp;·&nbsp; ' + open + ' – ' + close;
+  }
+
+  // Số điện thoại trên nav
+  if (cfg.uiVenuePhone) {
+    const telLink = document.querySelector('a[href^="tel:"]');
+    if (telLink) {
+      telLink.href        = 'tel:' + cfg.uiVenuePhone.replace(/\s/g,'');
+      telLink.textContent = '📞 ' + cfg.uiVenuePhone;
+    }
+  }
+
+  // Tab title
+  if (cfg.uiPageTitle) document.title = cfg.uiPageTitle;
+}
+
+</script>
+
+<!-- MEMBERSHIP LOGIN MODAL -->
+<div class="modal-overlay" id="memberModal">
+  <div class="modal" style="max-width:400px">
+
+    <!-- choose -->
+    <div id="mState_choose">
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem">
+        <div style="width:40px;height:40px;background:linear-gradient(135deg,rgba(243,156,18,0.2),rgba(230,126,34,0.1));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;border:1px solid rgba(243,156,18,0.2)">🏅</div>
+        <h2 style="font-family:'Be Vietnam Pro',sans-serif;font-size:2rem;font-weight:900;letter-spacing:0.3px;text-transform:uppercase">HỘI <span style="color:var(--yellow)">VIÊN</span></h2>
+      </div>
+      <p style="color:var(--text2);font-size:0.88rem;line-height:1.6;margin-bottom:0.4rem">Đăng ký hội viên để nhận <strong style="color:var(--green)">ưu đãi giảm giá tự động</strong> mỗi lần đặt sân.</p>
+      <div style="display:flex;gap:0.5rem;margin-bottom:1.25rem;flex-wrap:wrap">
+        <span style="font-size:0.72rem;padding:0.25rem 0.6rem;border-radius:20px;background:rgba(139,148,158,0.15);color:#8B949E;border:1px solid rgba(139,148,158,0.2)">⚫ Black · -5%</span>
+        <span style="font-size:0.72rem;padding:0.25rem 0.6rem;border-radius:20px;background:rgba(192,192,192,0.15);color:#C0C0C0;border:1px solid rgba(192,192,192,0.2)">⚪ Silver · -8%</span>
+        <span style="font-size:0.72rem;padding:0.25rem 0.6rem;border-radius:20px;background:rgba(243,156,18,0.15);color:#F39C12;border:1px solid rgba(243,156,18,0.2)">🥇 Gold · -10%</span>
+        <span style="font-size:0.72rem;padding:0.25rem 0.6rem;border-radius:20px;background:rgba(52,152,219,0.15);color:#3498DB;border:1px solid rgba(52,152,219,0.2)">💎 Diamond · -15%</span>
+      </div>
+      <div style="height:1px;background:linear-gradient(90deg,rgba(46,204,113,0.3),transparent);margin-bottom:1.25rem"></div>
+      <button class="btn btn-primary" onclick="showMemberState('login')" style="width:100%;margin-bottom:0.6rem;padding:0.85rem;font-size:0.95rem;font-family:'Inter',sans-serif;font-weight:700">🔑 Đăng nhập</button>
+      <button class="btn" onclick="showMemberState('register')" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:var(--text);padding:0.75rem;font-family:'Inter',sans-serif;font-weight:600">📝 Đăng ký mới</button>
+      <button class="btn" onclick="closeMemberModal()" style="width:100%;margin-top:0.5rem;background:transparent;color:rgba(139,148,158,0.7);border:none;font-size:0.85rem;font-family:'Inter',sans-serif">Bỏ qua</button>
+    </div>
+
+    <!-- login -->
+    <div id="mState_login" style="display:none">
+      <h2 style="margin-bottom:1rem">🔑 ĐĂNG NHẬP</h2>
+      <div class="mfield">
+        <label>Số điện thoại</label>
+        <input type="tel" id="mLoginPhone" placeholder="0901 234 567">
+      </div>
+      <div class="mfield">
+        <label>Mật khẩu 6 số</label>
+        <div style="position:relative">
+          <input type="password" id="mLoginPass" placeholder="••••••" maxlength="6" inputmode="numeric"
+            style="width:100%;padding-right:2.8rem" onkeydown="if(event.key==='Enter')doLogin()">
+          <button onclick="togglePassVis('mLoginPass',this)" class="pass-eye">👁</button>
+        </div>
+      </div>
+      <div id="mLoginError" class="merror"></div>
+      <button class="btn btn-primary" onclick="doLogin()" style="width:100%;margin-top:0.5rem">Đăng nhập →</button>
+      <div style="display:flex;justify-content:space-between;margin-top:0.75rem">
+        <button onclick="showMemberState('forgot')" class="mlink">Quên mật khẩu?</button>
+        <button onclick="showMemberState('choose')" class="mlink">← Quay lại</button>
+      </div>
+    </div>
+
+    <!-- register step 1: info -->
+    <div id="mState_register" style="display:none">
+      <h2 style="margin-bottom:0.75rem">📝 ĐĂNG KÝ HỘI VIÊN</h2>
+      <div class="mfield">
+        <label>Họ và tên *</label>
+        <input type="text" id="mRegName" placeholder="Nguyễn Văn A">
+      </div>
+      <div class="mfield">
+        <label>Số điện thoại *</label>
+        <input type="tel" id="mRegPhone" placeholder="0901 234 567">
+      </div>
+      <div class="mfield">
+        <label>Email * (nhận mã OTP xác nhận)</label>
+        <input type="email" id="mRegEmail" placeholder="your@email.com">
+      </div>
+      <div id="mRegError" class="merror"></div>
+      <button class="btn btn-primary" onclick="sendRegisterOtp()" style="width:100%;margin-top:0.25rem">📨 Gửi OTP xác nhận →</button>
+      <button onclick="showMemberState('choose')" class="mlink" style="margin-top:0.5rem">← Quay lại</button>
+    </div>
+
+    <!-- register step 2: OTP + set password -->
+    <div id="mState_regOtp" style="display:none">
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem">
+        <div style="width:40px;height:40px;background:linear-gradient(135deg,rgba(46,204,113,0.15),rgba(46,204,113,0.05));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;border:1px solid rgba(46,204,113,0.2)">✉️</div>
+        <h2 style="font-family:'Be Vietnam Pro',sans-serif;font-size:1.7rem;font-weight:900;letter-spacing:0.3px;text-transform:uppercase">XÁC NHẬN &amp; <span style="color:var(--green)">MẬT KHẨU</span></h2>
+      </div>
+      <p id="mRegOtpHint" style="color:var(--text2);font-size:0.83rem;margin-bottom:1rem"></p>
+      <div class="mfield">
+        <label>Mã OTP (6 số — hết hạn sau 5 phút)</label>
+        <input type="text" id="mRegOtp" placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
+      </div>
+      <div class="mfield">
+        <label>Tạo mật khẩu 6 số</label>
+        <div style="position:relative">
+          <input type="password" id="mRegPass1" placeholder="••••••" maxlength="6" inputmode="numeric" style="width:100%;padding-right:2.8rem">
+          <button onclick="togglePassVis('mRegPass1',this)" class="pass-eye">👁</button>
+        </div>
+      </div>
+      <div class="mfield">
+        <label>Nhập lại mật khẩu</label>
+        <input type="password" id="mRegPass2" placeholder="••••••" maxlength="6" inputmode="numeric" style="width:100%">
+      </div>
+      <div id="mRegOtpError" class="merror"></div>
+      <button class="btn btn-primary" onclick="doRegister()" style="width:100%">✅ Hoàn tất đăng ký</button>
+      <div style="display:flex;justify-content:space-between;margin-top:0.6rem">
+        <button onclick="sendRegisterOtp()" class="mlink">Gửi lại OTP</button>
+        <button onclick="showMemberState('register')" class="mlink">← Sửa thông tin</button>
+      </div>
+    </div>
+
+    <!-- forgot password step 1 -->
+    <div id="mState_forgot" style="display:none">
+      <h2 style="margin-bottom:1rem">🔓 QUÊN MẬT KHẨU</h2>
+      <div class="mfield">
+        <label>Số điện thoại đã đăng ký</label>
+        <input type="tel" id="mForgotPhone" placeholder="0901 234 567">
+      </div>
+      <div class="mfield">
+        <label>Email đã đăng ký</label>
+        <input type="email" id="mForgotEmail" placeholder="your@email.com">
+      </div>
+      <div id="mForgotError" class="merror"></div>
+      <button class="btn btn-primary" onclick="sendForgotOtp()" style="width:100%">📨 Gửi OTP đặt lại mật khẩu</button>
+      <button onclick="showMemberState('login')" class="mlink" style="margin-top:0.5rem">← Quay lại đăng nhập</button>
+    </div>
+
+    <!-- forgot password step 2: OTP + new pass -->
+    <div id="mState_forgotOtp" style="display:none">
+      <h2 style="margin-bottom:0.5rem">🔑 ĐẶT LẠI MẬT KHẨU</h2>
+      <p id="mForgotOtpHint" style="color:var(--text2);font-size:0.83rem;margin-bottom:1rem"></p>
+      <div class="mfield">
+        <label>Mã OTP (6 số)</label>
+        <input type="text" id="mForgotOtp" placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
+      </div>
+      <div class="mfield">
+        <label>Mật khẩu mới (6 số)</label>
+        <div style="position:relative">
+          <input type="password" id="mNewPass1" placeholder="••••••" maxlength="6" inputmode="numeric" style="width:100%;padding-right:2.8rem">
+          <button onclick="togglePassVis('mNewPass1',this)" class="pass-eye">👁</button>
+        </div>
+      </div>
+      <div class="mfield">
+        <label>Nhập lại mật khẩu mới</label>
+        <input type="password" id="mNewPass2" placeholder="••••••" maxlength="6" inputmode="numeric" style="width:100%">
+      </div>
+      <div id="mForgotOtpError" class="merror"></div>
+      <button class="btn btn-primary" onclick="doResetPassword()" style="width:100%">✅ Đặt lại mật khẩu</button>
+    </div>
+
+    <!-- dashboard -->
+    <div id="mState_dashboard" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem">
+        <div>
+          <h2 style="margin-bottom:0.1rem;font-size:1.3rem">⭐ <span id="mDashName" style="color:var(--yellow)"></span></h2>
+          <div style="font-size:0.8rem;color:var(--text2)" id="mDashPhone"></div>
+        </div>
+        <button onclick="logoutMember()" style="background:none;border:1px solid var(--border);color:var(--text2);border-radius:6px;padding:0.3rem 0.6rem;font-size:0.78rem;cursor:pointer">Đăng xuất</button>
+      </div>
+      <!-- Tier card -->
+      <div id="mDashTierCard" style="background:var(--bg2);border-radius:10px;padding:0.9rem;margin-bottom:1rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+          <span style="font-size:0.82rem;color:var(--text2)">Cấp bậc hiện tại</span>
+          <span id="mDashTierBadge" style="font-size:0.88rem;font-weight:700;padding:0.2rem 0.7rem;border-radius:20px;background:rgba(139,148,158,0.15);color:#8B949E"></span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem">
+          <span style="font-size:0.8rem;color:var(--text2)">Chi tiêu tháng này</span>
+          <span id="mDashSpent" style="font-size:0.9rem;font-weight:700;color:var(--green);font-family:'DM Sans',sans-serif"></span>
+        </div>
+        <div class="member-points-bar"><div class="member-points-fill" id="mDashPointsFill"></div></div>
+        <div style="font-size:0.75rem;color:var(--text2);margin-top:0.3rem">Cần thêm <span id="mDashPointsNeeded" style="color:var(--yellow);font-weight:600"></span> để lên <span id="mDashNextTier"></span></div>
+        <div style="margin-top:0.6rem;padding-top:0.6rem;border-top:1px solid rgba(255,255,255,0.05);font-size:0.8rem;color:var(--text2)">
+          Ưu đãi hiện tại: <strong id="mDashDiscount" style="color:var(--green)"></strong> mỗi đơn
+        </div>
+      </div>
+      <!-- Tier progression -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.3rem;margin-bottom:1rem">
+        <div style="text-align:center;padding:0.4rem 0.2rem;border-radius:8px;background:rgba(139,148,158,0.1);border:1px solid rgba(139,148,158,0.2)">
+          <div style="font-size:0.9rem">⚫</div><div style="font-size:0.65rem;color:#8B949E;font-weight:700">BLACK</div><div style="font-size:0.65rem;color:var(--text2)">-5%</div>
+        </div>
+        <div style="text-align:center;padding:0.4rem 0.2rem;border-radius:8px;background:rgba(192,192,192,0.1);border:1px solid rgba(192,192,192,0.2)">
+          <div style="font-size:0.9rem">⚪</div><div style="font-size:0.65rem;color:#C0C0C0;font-weight:700">SILVER</div><div style="font-size:0.65rem;color:var(--text2)">≥500k/tháng</div>
+        </div>
+        <div style="text-align:center;padding:0.4rem 0.2rem;border-radius:8px;background:rgba(243,156,18,0.1);border:1px solid rgba(243,156,18,0.2)">
+          <div style="font-size:0.9rem">🥇</div><div style="font-size:0.65rem;color:#F39C12;font-weight:700">GOLD</div><div style="font-size:0.65rem;color:var(--text2)">≥1tr · giữ 2T</div>
+        </div>
+        <div style="text-align:center;padding:0.4rem 0.2rem;border-radius:8px;background:rgba(52,152,219,0.1);border:1px solid rgba(52,152,219,0.2)">
+          <div style="font-size:0.9rem">💎</div><div style="font-size:0.65rem;color:#3498DB;font-weight:700">DIAMOND</div><div style="font-size:0.65rem;color:var(--text2)">≥2tr · giữ 3T</div>
+        </div>
+      </div>
+      <button class="btn" onclick="closeMemberModal()" style="width:100%;margin-top:0.75rem;background:var(--bg2)">✅ Xong</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ═══ BOOKING APP DEBUG ═══
+async function bookingDebugTest() {
+  const log = document.getElementById('bookingDebugLog');
+  if (!log) return;
+  const L = (msg, color) => {
+    log.innerHTML += `<div style="color:${color||'#E6EDF3'}">${msg}</div>`;
+    log.scrollTop = log.scrollHeight;
+  };
+  log.innerHTML = '';
+  L('═══ BẮT ĐẦU TEST ' + new Date().toLocaleTimeString('vi-VN') + ' ═══', '#F39C12');
+
+  // Bước 0: proxy health qua /api/sheet
+  L('<br>🔌 Bước 0: Kiểm tra proxy /api/sheet...');
+  try {
+    const res = await fetch('/api/sheet?action=debugHeaders');
+    const raw = await res.text();
+    L(`   → HTTP ${res.status} | ${raw.length} chars | preview: ${raw.substring(0,150)}`, '#8B949E');
+    if (raw.trim().startsWith('{') || raw.trim().startsWith('[')) {
+      L('✅ Proxy /api/sheet OK — trả về JSON', '#2ECC71');
+    } else if (raw.trim() === '') {
+      L('❌ Proxy trả về RỖNG — GAS đang throw exception', '#E74C3C');
+      L('   → Mở Apps Script → Executions → xem lỗi gần nhất', '#F39C12');
+    } else {
+      L('⚠️ Proxy trả về không phải JSON', '#F39C12');
+      L('   → ' + raw.substring(0, 200), '#8B949E');
+    }
+  } catch(e) { L('❌ Proxy FAIL: ' + e.message, '#E74C3C'); }
+
+  // Bước 1: readJson — đọc lịch hôm nay
+  L('<br>📅 Bước 1: Đọc lịch đặt sân hôm nay...');
+  try {
+    const today = new Date().toLocaleDateString('vi-VN', {day:'2-digit',month:'2-digit',year:'numeric'}).split('/').reverse().join('-');
+    const t0    = Date.now();
+    const res   = await fetch(`/api/sheet?action=readJson&date=${encodeURIComponent(today)}`);
+    const ms    = Date.now() - t0;
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data  = await res.json();
+    const rows  = Array.isArray(data) ? data : (data.bookings || []);
+    L(`✅ readJson OK — ${rows.length} booking hôm nay — ${ms}ms`, '#2ECC71');
+    if (rows.length > 0) {
+      const b = rows[0];
+      L(`   → Đầu tiên: ${b.name||'?'} | ${b.court||'?'} | ${b.startHour||'?'} | status: ${b.status||'?'}`, '#8B949E');
+    }
+  } catch(e) { L('❌ readJson FAIL: ' + e.message, '#E74C3C'); }
+
+  // Bước 2: readConfig — lấy giá/cấu hình sân
+  L('<br>⚙️ Bước 2: Đọc config (giá sân, số sân)...');
+  try {
+    const t0  = Date.now();
+    const res = await fetch('/api/sheet?action=readConfig');
+    const ms  = Date.now() - t0;
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (data && typeof data === 'object') {
+      const keys = Object.keys(data).slice(0,5).join(', ');
+      L(`✅ readConfig OK — keys: ${keys}... — ${ms}ms`, '#2ECC71');
+    } else {
+      L(`⚠️ readConfig không hợp lệ: ${JSON.stringify(data).substring(0,80)}`, '#F39C12');
+    }
+  } catch(e) { L('❌ readConfig FAIL: ' + e.message, '#E74C3C'); }
+
+  // Bước 3: write test (không thực sự gửi — chỉ test endpoint phản hồi)
+  L('<br>✏️ Bước 3: Kiểm tra endpoint ghi (write probe)...');
+  try {
+    const t0  = Date.now();
+    const res = await fetch('/api/sheet?action=ping');
+    const ms  = Date.now() - t0;
+    const raw = await res.text();
+    L(`   → HTTP ${res.status} | ${ms}ms | raw: ${raw.substring(0,120)}`, '#8B949E');
+    if (res.status < 500) {
+      L(`✅ Endpoint /api/sheet phản hồi — ${ms}ms`, '#2ECC71');
+    } else {
+      L(`❌ Server error ${res.status} — GAS hoặc proxy có vấn đề`, '#E74C3C');
+    }
+  } catch(e) { L('❌ Write probe FAIL: ' + e.message, '#E74C3C'); }
+
+  L('<br>═══ KẾT THÚC TEST ═══', '#F39C12');
+  L('→ Nếu tất cả ✅: booking app kết nối GAS bình thường', '#8B949E');
+  L('→ Bước 0 ❌: kiểm tra netlify/functions/proxy.js và redeploy', '#8B949E');
+  L('→ Bước 1 ❌: Sheet "Bookings" không tồn tại hoặc GAS lỗi quyền', '#8B949E');
+}
+</script>
+</body>
+</html>
