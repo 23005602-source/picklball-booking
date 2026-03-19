@@ -34,7 +34,8 @@ function gasBackup(url) {
 exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers: CORS, body: '' };
   const params = event.queryStringParameters || {};
-  const action = params.action || 'write';
+  // Nếu không có action nhưng có name/id → là write booking
+  const action = params.action || (params.name || params.id ? 'write' : 'write');
 
   // ── CONFIG ──
   if (action === 'readConfig') {
